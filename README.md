@@ -2,6 +2,8 @@
 
 A proof-of-concept that creates a `Codable` structure that mirrors basic SwiftUI views and conforms those types to `View`. This could be used to display dynamic SwiftUI views in an app via a `Codable` JSON structure from a remote server without updating the app.
 
+This is done without type erasure by using enums with associated values.
+
 ## Basic example
 
 ``` swift
