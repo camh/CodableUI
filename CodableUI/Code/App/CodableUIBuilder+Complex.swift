@@ -91,6 +91,7 @@ extension CodableUIBuilder {
 								)
 							),
 							modifiers: [
+								.lineLimit(10),
 								.padding(.bottom(20)),
 								.font(.system(.style(.body)))
 							]

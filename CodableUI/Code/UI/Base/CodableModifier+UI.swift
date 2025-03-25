@@ -22,6 +22,10 @@ extension CodableModifier: ViewModifier {
 
 		case .font(let font):
 			content.font(font.font)
+		case .multilineTextAlignment(let alignment):
+			content.multilineTextAlignment(alignment.textAlignment)
+		case .lineLimit(let limit):
+			content.lineLimit(limit)
 			
 		case .scaledToFit:
 			content.scaledToFit()
@@ -32,9 +36,6 @@ extension CodableModifier: ViewModifier {
 			
 		case .clipShape(let shape):
 			content.modifier(ClipShapeCodableModifier(shape: shape))
-			
-		case .multilineTextAlignment(let alignment):
-			content.multilineTextAlignment(alignment.textAlignment)
 			
 		case .opacity(let opacity):
 			content.opacity(opacity.rawValue)

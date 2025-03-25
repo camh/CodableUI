@@ -12,6 +12,7 @@ enum CodableModifier: Codable, Hashable {
 
 	case font(FontCodable)
 	case multilineTextAlignment(TextAlignmentCodable)
+	case lineLimit(Int?)
 	
 	case scaledToFill
 	case scaledToFit
