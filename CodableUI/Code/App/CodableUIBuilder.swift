@@ -26,7 +26,7 @@ struct CodableUIBuilder {
 		}
 	}
 	
-	nonisolated func getCodableView(for kind: Kind) async throws -> CodableView {
+	func getCodableView(for kind: Kind) async throws -> CodableView {
 		let view = self.view(for: kind)
 		let encoded = try JSONEncoder().encode(view)
 		print(String(data: encoded, encoding: .utf8) ?? "Error encoding")
