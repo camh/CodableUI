@@ -94,9 +94,9 @@ These are the implemented modififers:
 - `.opacity(_ opacity:)`
 - `.padding(_ insets:)`
 
-These are supported by many, many more codable representations that are dependencies of all those views and modifiers. Font, frame, Color, stroke, shape … these all have codable representations. I even have a codable representation for `CGFloat` because the default implementation does not allow for `.infinity`, which is important to encode for `.frame(minWidth:idealWidth: ...)`.
+These are supported by many, many more codable representations that are dependencies of all those views and modifiers. Font, frame, Color, stroke, shape … these all have codable representations. I even have a codable representation for `CGFloat` because the default `Codable` implementation for `CGFloat` throws an error when the value is `.infinity`, which is important to encode for `.frame(minWidth:idealWidth: ...)`.
 
-That said, even with a limited set of views and modifiers, making a fairly complex view is still very much possible:
+That said, even with a limited set of views and modifiers, making a fairly complex view is still very easy:
 
 <img width="60%" src="images/ComplexView-Light.png">
 
@@ -159,7 +159,8 @@ Since `AsyncImage` is mainly configured with a closure, this was tricky to imple
 
 This means we can specify any view we want for the error and placeholder states of the `AsyncImage` view:
 
-<img width="60%" src="images/AsyncImage-Placeholder.png"> <img width="60%" src="images/AsyncImage-Error.png">
+<img width="60%" src="images/AsyncImage-Placeholder.png">
+<img width="60%" src="images/AsyncImage-Error.png">
 
 ### `Button`
 
