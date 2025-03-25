@@ -1,6 +1,6 @@
 # CodableUI
 
-A proof-of-concept that encodes basic SwiftUI views into a `Codable` structure that can be decoded into a native SwiftUI view without type erasure. This could be used to display portions of a SwifUI app via a codable JSON structure from a remote server without updating the app.
+A proof-of-concept that creates a `Codable` structure that mirrors basic SwiftUI views and conforms those types to `View`. This could be used to display dynamic SwiftUI views in an app via a `Codable` JSON structure from a remote server without updating the app.
 
 ## Basic example
 
