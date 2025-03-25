@@ -83,6 +83,7 @@ And I've implemented these modifiers:
 - `.background()` (supports `Color` or any supported view from above)
 - `.font()` (system and custom font support, with relative sizes or fixed)
 - `.multilineTextAlignment(_ alignment:)`
+- `.lineLimit(_ number:)`
 - `.scaledToFill()`
 - `.scaledToFit()`
 - `.clipped()`
@@ -95,9 +96,17 @@ These are supported by many, many more codable representations that are dependen
 
 That said, even with a limited set of views and modifiers, making a fairly complex view is still very much possible:
 
-![A more complex CodableView](images/ComplexView.png)
+![A more complex CodableView](images/ComplexView-Light.png)
 
 ## Advanced usage
+
+### Color Scheme
+
+The `ColorCodable` enum supports many different colors definitions. You can define a system color like `Color.pink` or `Color.green`. You can define a percentage of white that mirrors `Color(white:opacity)`. You can define HSBA and RGBA colors. You can also define a dynamic color with light and dark values.
+
+This allows us to create views that can respond to the current `colorScheme` in the enviroment:
+
+![A CodableView in dark mode with dynamic color](images/ComplexView-Dark.png)
 
 ### `AsyncImage`
 
