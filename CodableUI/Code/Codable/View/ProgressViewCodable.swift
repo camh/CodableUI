@@ -1,5 +1,5 @@
 //
-//  ProgressCodableView.swift
+//  ProgressViewCodable.swift
 //  CodableUI
 //
 //  Created by Cam Hunt on 3/24/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProgressCodableView: Codable, Hashable, Identifiable {
+struct ProgressViewCodable: Codable, Hashable, Identifiable {
 	let id: UUID
 	
 	static var `default`: Self {

@@ -1,5 +1,5 @@
 //
-//  AsyncImageCodableView.swift
+//  AsyncImageCodable.swift
 //  CodableUI
 //
 //  Created by Cam Hunt on 3/24/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AsyncImageCodableView: Codable, Hashable, Identifiable {
+struct AsyncImageCodable: Codable, Hashable, Identifiable {
 	
 	enum CodingKeys: String, CodingKey {
 		case image
@@ -70,7 +70,7 @@ struct AsyncImageCodableView: Codable, Hashable, Identifiable {
 	}
 }
 
-extension AsyncImageCodableView {
+extension AsyncImageCodable {
 	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		url = try container.decode(URL.self, forKey: .image)

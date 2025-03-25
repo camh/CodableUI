@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension AsyncImageCodableView: View {
+extension AsyncImageCodable: View {
 	var body: some View {
 		AsyncImage(
 			url: url,

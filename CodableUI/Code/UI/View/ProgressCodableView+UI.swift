@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension ProgressCodableView: View {
+extension ProgressViewCodable: View {
 	var body: some View {
 		ProgressView()
 	}

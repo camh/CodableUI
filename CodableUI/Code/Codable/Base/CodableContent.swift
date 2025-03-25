@@ -9,7 +9,7 @@ import Foundation
 
 indirect enum CodableContent: Codable, Hashable, Identifiable {
 	
-	case progress(ProgressCodableView)
+	case progress(ProgressViewCodable)
 	case spacer(SpacerCodable)
 
 	case shape(ShapeCodableView)
@@ -18,7 +18,7 @@ indirect enum CodableContent: Codable, Hashable, Identifiable {
 	case text(TextCodable)
 	
 	case image(ImageCodableView)
-	case asyncImage(AsyncImageCodableView)
+	case asyncImage(AsyncImageCodable)
 	
 	case button(ButtonCodable)
 	

@@ -63,19 +63,21 @@ This is the result:
 
 Right now I've implemented codable structures for the following views:
 
-- `Spacer`
-- `ProgressView`
-- `Text`
-- `Image`
-- `AsyncImage`
-- `HStack`
-- `VStack`
-- `ZStack`
-- `Color` (when used for its conformance to `View`)
-- `Shape` (again, when used for its conformance to `View`)
-- `Button`
+- `Spacer` → `SpacerCodable`
+- `ProgressView` → `ProgressViewCodable`
+- `Text` → `TextCodable`
+- `Image` → `ImageCodableView`
+- `AsyncImage` → `AsyncImageCodable`
+- `HStack` → `HStackCodable`
+- `VStack` → `VStackCodable`
+- `ZStack` → `ZStackCodable`
+- `Color` → `ColorCodableView` (used for its conformance to `View`)
+- `Shape` → `ShapeCodableView` (again, for its conformance to `View`)
+- `Button` → `ButtonCodable`
 
-And I've implemented these modifiers:
+Generally I follow naming convention of adding "Codable" to a SwiftUI view type name for its codable structure, but there are times where I also add "View" when there is a model that already takes that name. Example: `ImageCodable` is an enum which defines various ways an image could be created, so the codable view itself is renamed to `ImageCodableView`. 
+
+These are the implemented modififers:
 
 - `.frame(width:height:alignment:)`
 - `.frame(minWidth:idealWidth: ...)`
@@ -96,25 +98,38 @@ These are supported by many, many more codable representations that are dependen
 
 That said, even with a limited set of views and modifiers, making a fairly complex view is still very much possible:
 
-![A more complex CodableView](images/ComplexView-Light.png)
+<img width="60%" src="images/ComplexView-Light.png">
 
 ## Advanced usage
 
 ### Color Scheme
 
-The `ColorCodable` enum supports many different colors definitions. You can define a system color like `Color.pink` or `Color.green`. You can define a percentage of white that mirrors `Color(white:opacity)`. You can define HSBA and RGBA colors. You can also define a dynamic color with light and dark values.
+The `ColorCodable` enum supports many different colors definitions. You can define a system color like `Color.pink` or `Color.green`. You can define a percentage of white that mirrors `Color(white:opacity)`. You can define a color with a hex string. You can define HSBA and RGBA colors. Since `ColorCodable` is an `indirect` enum, you can also define a dynamic color with light and dark `ColorCodable` values, like this:
+
+```swift 
+modifiers: [
+  .foregroundColor(
+    .dynamic(light: .system(.black), dark: .system(.white))
+  )
+]
+```
 
 This allows us to create views that can respond to the current `colorScheme` in the enviroment:
 
-![A CodableView in dark mode with dynamic color](images/ComplexView-Dark.png)
+<img width="60%" src="images/ComplexView-Dark.png">
 
 ### `AsyncImage`
+
+Since `AsyncImage` is mainly configured with a closure, this was tricky to implement in a static way. I decided that my corollary to `AsyncImage` should mimic the phases provided by `AsyncImage`'s `content` closure, providing ways to provide error and placeholder views and modifiers that will be applied to the image returned in the `content` closure.
 
 ```swift
 .content(
   .asyncImage(
     .url(
       URL(string: "https://picsum.photos/400/600"),
+      imageModifiers: [
+        .scaledToFill
+      ],
       errorView: .content(
         .image(.systemName("exclamationmark.triangle.fill"))
       ),
@@ -141,6 +156,10 @@ This allows us to create views that can respond to the current `colorScheme` in 
   ]
 )
 ```
+
+This means we can specify any view we want for the error and placeholder states of the `AsyncImage` view:
+
+<img width="60%" src="images/AsyncImage-Placeholder.png"> <img width="60%" src="images/AsyncImage-Error.png">
 
 ### `Button`
 
