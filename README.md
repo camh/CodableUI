@@ -6,18 +6,18 @@ A proof-of-concept that encodes basic SwiftUI views into a `Codable` structure t
 
 ``` swift
 var basicCodableView: CodableView {
-	.content(
-		.hStack(
-			.children([
-				.content(.image(.systemName("globe"))),
-				.content(.text("Hello, world!"))
-			])
-		),
-		modifiers: [
-			.padding(.all(20)),
-			.backgroundColor(.white(0.8))
-		]
-	)
+  .content(
+    .hStack(
+      .children([
+        .content(.image(.systemName("globe"))),
+        .content(.text("Hello, world!"))
+      ])
+    ),
+    modifiers: [
+      .padding(.all(20)),
+      .backgroundColor(.white(0.8))
+    ]
+  )
 }
 ```
 
@@ -25,33 +25,33 @@ This defines a `CodableView` with its `content` defined as an `.hStack` with two
 
 OK, let's encode it.
 
-``` swift
+```swift
 nonisolated func getCodableView() async throws -> CodableView {
-	let view = await self.basicCodableView
-	let encoded = try JSONEncoder().encode(view)
-	let decodedView = try JSONDecoder().decode(CodableView.self, from: encoded)
-	return decodedView
+  let view = await self.basicCodableView
+  let encoded = try JSONEncoder().encode(view)
+  let decodedView = try JSONDecoder().decode(CodableView.self, from: encoded)
+  return decodedView
 }
 ```
 
 We get our `basicCodableView `. Then we encode it into JSON `Data`, then we decode that JSON `Data` into a `CodableView`. Now let's display that.
 
-``` swift
+```swift
 struct BasicView: View {
-	@State private var codableView: CodableView?
-	
-	var body: some View {
-		ScrollView {
-			if let codableView {
-				codableView
-			} else {
-				ProgressView()
-			}
-		}
-		.task {
-			self.codableView = try? await getCodableView()
-		}
-	}
+  @State private var codableView: CodableView?
+  
+  var body: some View {
+    ScrollView {
+      if let codableView {
+        codableView
+      } else {
+        ProgressView()
+      }
+    }
+    .task {
+      self.codableView = try? await getCodableView()
+    }
+  }
 }
 ```
 
@@ -101,35 +101,35 @@ That said, even with a limited set of views and modifiers, making a fairly compl
 
 ### `AsyncImage`
 
-```
+```swift
 .content(
-	.asyncImage(
-		.url(
-			URL(string: "https://picsum.photos/400/600"),
-			errorView: .content(
-				.image(.systemName("exclamationmark.triangle.fill"))
-			),
-			placeholderView: .content(
-				.zStack(
-					.children(
-						[
-							.content(
-								.color(.dynamic(light: .system(.black), dark: .system(.white))),
-								modifiers: [.opacity(0.1)]
-							),
-							.content(.progress),
-						]
-					)
-				)
-			)
-		)
-		.resizable()
-	),
-	modifiers: [
-		.frame(.flexible(.maxWidth(.infinity))),
-		.frame(.fixed(.height(300))),
-		.clipShape(.roundedRectangle(cornerRadius: 10)),
-	]
+  .asyncImage(
+    .url(
+      URL(string: "https://picsum.photos/400/600"),
+      errorView: .content(
+        .image(.systemName("exclamationmark.triangle.fill"))
+      ),
+      placeholderView: .content(
+        .zStack(
+          .children(
+            [
+              .content(
+                .color(.dynamic(light: .system(.black), dark: .system(.white))),
+                modifiers: [.opacity(0.1)]
+              ),
+              .content(.progress),
+            ]
+          )
+        )
+      )
+    )
+    .resizable()
+  ),
+  modifiers: [
+    .frame(.flexible(.maxWidth(.infinity))),
+    .frame(.fixed(.height(300))),
+    .clipShape(.roundedRectangle(cornerRadius: 10)),
+  ]
 )
 ```
 
@@ -139,24 +139,24 @@ In order to use a `Button` in a static `Codable` representation, we have to abst
 
 The actions are handled by an environment value with the type `@Sendable (ButtonActionCodable) async -> ()`. Using it in a non-codable view is simple:
 
-``` swift
+```swift
 @State private var buttonAction: ButtonActionCodable?
 
 var body: some View {
-	CodableView(
-		content: .button(
-			.action(
-				.name("show_more"),
-				label: .content(.text("Show more"))
-			)
-		)
-	)
-	.environment(\.codableButtonAction) { [$buttonAction] action  in
-		$buttonAction.wrappedValue = action
-	}
-	.onChange(of: buttonAction) { old, new in
-		// handle action
-	}
+  CodableView(
+    content: .button(
+      .action(
+        .name("show_more"),
+        label: .content(.text("Show more"))
+      )
+    )
+  )
+  .environment(\.codableButtonAction) { [$buttonAction] action  in
+    $buttonAction.wrappedValue = action
+  }
+  .onChange(of: buttonAction) { old, new in
+    // handle action
+  }
 }
 ```
 
