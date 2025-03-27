@@ -1,0 +1,24 @@
+//
+//  ModifiableContent+Background.swift
+//  CodableUI
+//
+//  Created by Cam Hunt on 3/27/25.
+//
+
+extension ModifiableContent {
+	public func background(_ color: ColorCodable) -> Self {
+		addModifier(.backgroundColor(color))
+	}
+	public func background(light: ColorCodable, dark: ColorCodable) -> Self {
+		let color = ColorCodable(light: light, dark: dark)
+		return addModifier(.backgroundColor(color))
+	}
+}
+
+extension ModifiableContent {
+	public func background(
+		@CodableViewBuilder _ view: () -> CodableView
+	) -> Self {
+		addModifier(.backgroundView(view()))
+	}
+}
