@@ -6,26 +6,26 @@
 //
 
 public protocol ModifiableContent {
-	var modifiers: [CodableModifier] { get set }
-	func setModifiers(_ modifiers: CodableModifier...) -> Self
-	func addModifiers(_ modifiers: CodableModifier...) -> Self
-	func addModifier(_ modifier: CodableModifier) -> Self
+	var modifiers: [ViewModifierCodable] { get set }
+	func setModifiers(_ modifiers: ViewModifierCodable...) -> Self
+	func addModifiers(_ modifiers: ViewModifierCodable...) -> Self
+	func addModifier(_ modifier: ViewModifierCodable) -> Self
 }
 
 public extension ModifiableContent {
-	func setModifiers(_ modifiers: CodableModifier...) -> Self {
+	func setModifiers(_ modifiers: ViewModifierCodable...) -> Self {
 		var copy = self
 		copy.modifiers = modifiers
 		return copy
 	}
 	
-	func addModifiers(_ modifiers: CodableModifier...) -> Self {
+	func addModifiers(_ modifiers: ViewModifierCodable...) -> Self {
 		var copy = self
 		copy.modifiers = copy.modifiers + modifiers
 		return copy
 	}
 	
-	func addModifier(_ modifier: CodableModifier) -> Self {
+	func addModifier(_ modifier: ViewModifierCodable) -> Self {
 		var copy = self
 		copy.modifiers = copy.modifiers + [modifier]
 		return copy

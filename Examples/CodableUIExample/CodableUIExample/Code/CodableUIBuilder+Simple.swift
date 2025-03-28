@@ -9,8 +9,8 @@ import SwiftUI
 import CodableUI
 
 extension CodableUIBuilder {
-	@CodableViewBuilder
-	var simpleView: CodableView {
+	@ViewCodableBuilder
+	var simpleView: ViewCodable {
 		HStackCodable(spacing: 30) {
 			ImageCodable(systemName: "globe")
 				.resizable()

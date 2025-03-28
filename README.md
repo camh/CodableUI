@@ -7,51 +7,46 @@ This is done without type erasure by using enums with associated values.
 ## Basic example
 
 ``` swift
-var basicCodableView: CodableView {
-  .content(
-    .hStack(
-      .children([
-        .content(.image(.systemName("globe"))),
-        .content(.text("Hello, world!"))
-      ])
-    ),
-    modifiers: [
-      .padding(.all(20)),
-      .backgroundColor(.white(0.8))
-    ]
-  )
+@ViewCodableBuilder
+var exampleView: ViewCodable {
+  HStackCodable {
+    ImageCodable(systemName: "globe")
+    TextCodable("Hello, world!")
+  }
+  .padding(20)
+  .background(.white(0.8))
 }
 ```
 
-This defines a `CodableView` with its `content` defined as an `.hStack` with two children: one `.image` with a SF symbol of `globe` and one `.text` with the string "Hello, world!".
+This DSL mimics the SwiftUI DSL to make it familiar  for Swift engineers and straightforward to convert SwiftUI views into codable counterparts.
 
 OK, let's encode it.
 
 ```swift
-nonisolated func getCodableView() async throws -> CodableView {
-  let view = await self.basicCodableView
+nonisolated func getExampleView() async throws -> ViewCodable {
+  let view = await self.exampleView
   let encoded = try JSONEncoder().encode(view)
-  let decodedView = try JSONDecoder().decode(CodableView.self, from: encoded)
+  let decodedView = try JSONDecoder().decode(ViewCodable.self, from: encoded)
   return decodedView
 }
 ```
 
-We get our `basicCodableView `. Then we encode it into JSON `Data`, then we decode that JSON `Data` into a `CodableView`. Now let's display that.
+We get our `basicView `. Then we encode it into JSON `Data`, then we decode that JSON `Data` into a `ViewCodable`. Now let's display that.
 
 ```swift
 struct BasicView: View {
-  @State private var codableView: CodableView?
+  @State private var viewCodable: ViewCodable?
   
   var body: some View {
     ScrollView {
-      if let codableView {
-        codableView
+      if let viewCodable {
+        viewCodable
       } else {
         ProgressView()
       }
     }
     .task {
-      self.codableView = try? await getCodableView()
+      self.viewCodable = try? await getExampleView()
     }
   }
 }
@@ -68,23 +63,31 @@ Right now I've implemented codable structures for the following views:
 - `Spacer` → `SpacerCodable`
 - `ProgressView` → `ProgressViewCodable`
 - `Text` → `TextCodable`
-- `Image` → `ImageCodableView`
+- `Image` → `ImageCodable`
 - `AsyncImage` → `AsyncImageCodable`
 - `HStack` → `HStackCodable`
 - `VStack` → `VStackCodable`
 - `ZStack` → `ZStackCodable`
-- `Color` → `ColorCodableView` (used for its conformance to `View`)
-- `Shape` → `ShapeCodableView` (again, for its conformance to `View`)
+- `LazyVStack` → `LazyVStackCodable`
+- `Color` → `ColorCodable`
+- `Shape` → `ShapeCodable`
+	- `Rectangle` → `RectangleCodable`
+	- `Circle` → `CircleCodable`
+	- `Ellipse` → `EllipseCodable`
+	- `Capsule` → `CapsuleCodable`
+	- `RoundedRectangle` → `RoundedRectangleCodable`
 - `Button` → `ButtonCodable`
+- `ScrollView` → `ScrollViewCodable`
 
-Generally I follow naming convention of adding "Codable" to a SwiftUI view type name for its codable structure, but there are times where I also add "View" when there is a model that already takes that name. Example: `ImageCodable` is an enum which defines various ways an image could be created, so the codable view itself is renamed to `ImageCodableView`. 
+Generally I follow naming convention of adding "Codable" to a SwiftUI view type name for its codable type name.
 
 These are the implemented modififers:
 
 - `.frame(width:height:alignment:)`
 - `.frame(minWidth:idealWidth: ...)`
+- `layoutPriority(_ value:)`
 - `.foregroundStyle()` (only supports `Color` at the moment)
-- `.background()` (supports `Color` or any supported view from above)
+- `.background()` (supports `Color` or any implemented view above)
 - `.font()` (system and custom font support, with relative sizes or fixed)
 - `.multilineTextAlignment(_ alignment:)`
 - `.lineLimit(_ number:)`
@@ -92,9 +95,11 @@ These are the implemented modififers:
 - `.scaledToFit()`
 - `.clipped()`
 - `.clipShape(_ shape:)` 
-- `.blur(radius:)`
+- `.blur(_ radius:)`
 - `.opacity(_ opacity:)`
 - `.padding(_ insets:)`
+- `toolbar()`
+- `onTapGesture()`
 
 These are supported by many, many more codable representations that are dependencies of all those views and modifiers. Font, frame, Color, stroke, shape … these all have codable representations. I even have a codable representation for `CGFloat` because the default `Codable` implementation for `CGFloat` throws an error when the value is `.infinity`, which is important to encode for `.frame(minWidth:idealWidth: ...)`.
 
@@ -125,38 +130,23 @@ This allows us to create views that can respond to the current `colorScheme` in 
 Since `AsyncImage` is mainly configured with a closure, this was tricky to implement in a static way. I decided that my corollary to `AsyncImage` should mimic the phases provided by `AsyncImage`'s `content` closure, providing ways to provide error and placeholder views and modifiers that will be applied to the image returned in the `content` closure.
 
 ```swift
-.content(
-  .asyncImage(
-    .url(
-      URL(string: "https://picsum.photos/400/600"),
-      imageModifiers: [
-        .scaledToFill
-      ],
-      errorView: .content(
-        .image(.systemName("exclamationmark.triangle.fill"))
-      ),
-      placeholderView: .content(
-        .zStack(
-          .children(
-            [
-              .content(
-                .color(.dynamic(light: .system(.black), dark: .system(.white))),
-                modifiers: [.opacity(0.1)]
-              ),
-              .content(.progress),
-            ]
-          )
-        )
-      )
-    )
-    .resizable()
-  ),
-  modifiers: [
-    .frame(.flexible(.maxWidth(.infinity))),
-    .frame(.fixed(.height(300))),
-    .clipShape(.roundedRectangle(cornerRadius: 10)),
-  ]
-)
+AsyncImageCodable(
+  url: URL(string: "https://picsum.photos/400/600")
+) { // error closure
+  ImageCodable(systemName: "exclamationmark.triangle.fill")
+} placeholder: {
+  ZStackCodable {
+    ColorCodable(light: .black, dark: .white)
+      .opacity(0.2)
+    ProgressViewCodable()
+  }
+}
+.resizable() // applied to the image returned by AsyncImage's content closure
+.frame(maxWidth: .infinity)
+.frame(height: 300)
+.clipShape {
+  RoundedRectangleCodable(cornerRadius: 12)
+}
 ```
 
 This means we can specify any view we want for the error and placeholder states of the `AsyncImage` view:
@@ -171,33 +161,30 @@ In order to use a `Button` in a static `Codable` representation, we have to abst
 The actions are handled by an environment value with the type `@Sendable (ButtonActionCodable) async -> ()`. Using it in a non-codable view is simple:
 
 ```swift
-@State private var buttonAction: ButtonActionCodable?
+@State private var buttonAction: ActionCodable?
 
 var body: some View {
-  CodableView(
-    content: .button(
-      .action(
-        .name("show_more"),
-        label: .content(.text("Show more"))
-      )
-    )
-  )
-  .environment(\.codableButtonAction) { [$buttonAction] action  in
+  ButtonCodable {
+    ActionCodable(name: "show_more")
+  } label: {
+    TextCodable("Show more")
+  }
+  .environment(\.codableActionHandler) { [$buttonAction] action  in
     $buttonAction.wrappedValue = action
   }
   .onChange(of: buttonAction) { old, new in
-    // handle action
+    print(new)
   }
 }
 ```
 
 ## Example app
 
-This project contains an example app showing a simple view and a complex view. Each `CodableView` is encoded into JSON and decoded from JSON before being displayed.
+This project contains an example app showing a simple view and a complex view. Each `ViewCodable` is encoded into JSON and decoded from JSON before being displayed.
 
 ## Future
 
-This being a proof-of-concept, I don't intend to turn this into full-fledged framework and maintain it. If you're interested in doing so, email: me at cam dot is. I think this would be very interesting to turn into a package for Vapor or other server-side Swift frameworks to provide server-driven UI to an app. A DSL based with `@resultBuilder` might even be possible to mirror SwiftUI's API from a server.
+This being a proof-of-concept, I don't intend to turn this into full-fledged framework and maintain it. If you're interested in doing so, email: me at cam dot is. I think this would be very interesting to turn into a package for Vapor or other server-side Swift frameworks to provide server-driven UI to an app.
 
 This proof-of-concept used a lot of a unlabeled associated values, resulting in keys like `_0, _1, _2`. If I were to continue working on this, I would label those associated values and document the schema so it could be reliably generated from non-Swift server languages.
 

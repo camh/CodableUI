@@ -8,62 +8,35 @@
 import SwiftUI
 import CodableUI
 
-struct TestView: View {
-	var body: some View {
-		NavigationStack {
-			content
-		}
-	}
+struct BasicView: View {
 	
-	@CodableViewBuilder
-	var content: CodableView {
-		ScrollViewCodable {
-			TextCodable("Hello")
-				.font(.largeTitle, design: .serif, weight: .black)
-		}
-//		.content(
-//			.scrollView(
-//				ScrollViewCodable(
-//					content: .content(
-//						.vStack(
-//							.children(
-//								[
-//									.content(.text("Hello, world!"))
-//								]
-//							)
-//						),
-//						modifiers: [
-//							.frame(.flexible(.maxWidth(.infinity))),
-//						]
-//					)
-//				)
-//			),
-//			modifiers: [
-//				.frame(.flexible(.maxWidth(.infinity))),
-//				.backgroundView(
-//					.content(
-//						.color(.system(.red)),
-//						modifiers: [.opacity(0.2)]
-//					)
-//				),
-//				.navigationTitle("Test"),
-//				.navigationBarTitleDisplayMode(.inline),
-//				.toolbar(
-//					ToolbarItemCodable(placement: .topBarTrailing, content: .content(.text("Hello World!")))
-//				),
-//				.toolbar(
-//					ToolbarItemCodable(
-//						placement: .bottomBar,
-//						content: .content(
-//							.text("Hello World!"), modifiers: [.foregroundColor(.system(.red))]
-//						)
-//					)
-//				)
-//			]
-//		)
+@State private var buttonAction: ActionCodable?
+
+var body: some View {
+	ButtonCodable {
+		ActionCodable(name: "show_more")
+	} label: {
+		TextCodable("Show more")
+	}
+	.onChange(of: buttonAction) { old, new in
+		print(new)
+	}
+	.environment(\.codableActionHandler) { [$buttonAction] action  in
+		$buttonAction.wrappedValue = action
 	}
 }
+}
+
+//@ViewBuilderCodable
+//var content: ViewCodable {
+//	HStackCodable {
+//		ImageCodable(systemName: "globe")
+//		TextCodable("Hello, world!")
+//	}
+//	.padding(20)
+//	.background(.white(0.8))
+//}
 
 #Preview {
-	TestView()
+	BasicView()
 }

@@ -26,7 +26,7 @@ struct CodableKindView: View {
 	
 	let kind: CodableUIBuilder.Kind
 	
-	@State private var codableView: CodableView?
+	@State private var codableView: ViewCodable?
 	@State private var action: ActionCodable?
 	
 	var body: some View {

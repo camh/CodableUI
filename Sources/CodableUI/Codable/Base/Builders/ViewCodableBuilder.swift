@@ -1,51 +1,33 @@
 //
-//  ChildrenViewBuilder.swift
+//  ViewCodableBuilder.swift
 //  CodableUI
 //
 //  Created by Cam Hunt on 3/27/25.
 //
 
 @resultBuilder
-public struct ChildrenViewBuilder {
+public struct ViewCodableBuilder {
 	
-	public static func buildArray(_ components: [[ViewCodable]]) -> [ViewCodable] {
-		components.flatMap { $0 }
+	public static func buildEither(first component: ViewCodable) -> ViewCodable {
+		component
 	}
 	
-	public static func buildExpression(_ expression: ViewCodable) -> [ViewCodable] {
-		[expression]
+	public static func buildEither(second component: ViewCodable) -> ViewCodable {
+		component
 	}
 	
-	public static func buildExpression(_ expression: [ViewCodable]) -> [ViewCodable] {
+	public static func buildExpression(_ expression: ViewCodable) -> ViewCodable {
 		expression
 	}
 	
-	public static func buildBlock(_ children: ViewCodable...) -> [ViewCodable] {
-		children
+	public static func buildBlock(_ components: ViewCodable) -> ViewCodable {
+		components
 	}
 	
-	public static func buildBlock(_ children: [ViewCodable]...) -> [ViewCodable] {
-		children.flatMap { $0 }
-	}
-	
-	public static func buildEither(first component: [ViewCodable]) -> [ViewCodable] {
-		component
-	}
-	
-	public static func buildEither(second component: [ViewCodable]) -> [ViewCodable] {
-		component
-	}
-	
-	public static func buildEither(first component: ViewCodable) -> [ViewCodable] {
-		[component]
-	}
-	
-	public static func buildEither(second component: ViewCodable) -> [ViewCodable] {
-		[component]
-	}
-	
-	public static func buildOptional(_ component: [ViewCodable]?) -> [ViewCodable] {
-		component ?? []
+	public static func buildBlock(_ components: ViewCodable...) -> ViewCodable {
+		ViewCodable.vStack(
+			VStackCodable(children: { components })
+		)
 	}
 	
 	// MARK: - ViewCodable types -
@@ -123,5 +105,4 @@ public struct ChildrenViewBuilder {
 	public static func buildExpression(_ shape: RoundedRectangleCodable) -> ViewCodable {
 		.shape(.roundedRectangle(shape))
 	}
-	
 }

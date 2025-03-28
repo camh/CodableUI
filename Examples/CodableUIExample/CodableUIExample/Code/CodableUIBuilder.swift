@@ -18,7 +18,7 @@ struct CodableUIBuilder {
 		}
 	}
 	
-	func view(for kind: Kind) -> CodableView {
+	func view(for kind: Kind) -> ViewCodable {
 		switch kind {
 		case .simple:
 			simpleView
@@ -27,12 +27,12 @@ struct CodableUIBuilder {
 		}
 	}
 	
-	func getCodableView(for kind: Kind) async throws -> CodableView {
+	func getCodableView(for kind: Kind) async throws -> ViewCodable {
 		let view = self.view(for: kind)
 		let encoded = try JSONEncoder().encode(view)
 		print(String(data: encoded, encoding: .utf8) ?? "Error encoding")
 		print("\n\n+++++++++++++\n\n")
-		let decodedView = try JSONDecoder().decode(CodableView.self, from: encoded)
+		let decodedView = try JSONDecoder().decode(ViewCodable.self, from: encoded)
 		return decodedView
 	}
 }

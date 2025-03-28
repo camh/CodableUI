@@ -6,7 +6,10 @@
 //
 
 extension ModifiableContent {
-	public func toolbar(item: ToolbarItemCodable) -> Self {
+	public func toolbar(_ item: ToolbarItemCodable) -> Self {
 		addModifier(.toolbar(item))
+	}
+	public func toolbar(_ item: () -> ToolbarItemCodable) -> Self {
+		addModifier(.toolbar(item()))
 	}
 }

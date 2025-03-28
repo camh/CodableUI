@@ -5,12 +5,12 @@
 //  Created by Cam Hunt on 3/27/25.
 //
 
-protocol CodableShape: ViewCodable {
+public protocol CodableShape: CodableView {
 	var fill: ColorCodable? { get set }
 	var stroke: StrokeCodable? { get set }
 }
 
-extension CodableShape {
+public extension CodableShape {
 	func fill(_ color: ColorCodable) -> Self {
 		var copy = self
 		copy.fill = color

@@ -1,5 +1,5 @@
 //
-//  ToolbarItemCodable.swift
+//  ScrollViewCodable.swift
 //  CodableUI
 //
 //  Created by Cam Hunt on 3/26/25.
@@ -7,47 +7,43 @@
 
 import Foundation
 
-public struct ToolbarItemCodable: Codable, Hashable, Identifiable, Sendable {
+public struct ScrollViewCodable: CodableView {
 	
 	enum CodingKeys: String, CodingKey {
-		case placement
+		case axis
 		case content
+		case modifiers
 	}
 	
-	let placement: ToolbarItemPlacementCodable
-	let content: ViewCodable
+	public var axis: AxisCodable
+	public var content: ViewCodable
+	public var modifiers: [ViewModifierCodable]
 	
 	public let id: UUID
 	
 	public init(
-		placement: ToolbarItemPlacementCodable = .automatic,
-		content: ViewCodable
-	) {
-		self.placement = placement
-		self.content = content
-		self.id = UUID()
-	}
-	
-	public init(
-		placement: ToolbarItemPlacementCodable = .automatic,
+		_ axis: AxisCodable = .vertical,
 		@ViewCodableBuilder content: () -> ViewCodable
 	) {
-		self.placement = placement
+		self.axis = axis
 		self.content = content()
+		self.modifiers = []
 		self.id = UUID()
 	}
 }
 
-extension ToolbarItemCodable {
+extension ScrollViewCodable {
 	public init(from decoder: any Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		self.placement = try container.decode(ToolbarItemPlacementCodable.self, forKey: .placement)
+		self.axis = try container.decode(AxisCodable.self, forKey: .axis)
 		self.content = try container.decode(ViewCodable.self, forKey: .content)
+		self.modifiers = try container.decode([ViewModifierCodable].self, forKey: .modifiers)
 		self.id = UUID()
 	}
 	public func encode(to encoder: any Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
-		try container.encode(placement, forKey: .placement)
+		try container.encode(axis, forKey: .axis)
 		try container.encode(content, forKey: .content)
+		try container.encode(modifiers, forKey: .modifiers)
 	}
 }

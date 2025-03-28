@@ -13,8 +13,4 @@ public struct ImageResizeCodable: Codable, Hashable, Sendable {
 		self.capInsets = capInsets
 		self.resizingMode = resizingMode
 	}
-	
-	public static var `true`: Self {
-		.init()
-	}
 }

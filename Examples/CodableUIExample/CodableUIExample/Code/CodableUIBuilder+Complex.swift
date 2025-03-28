@@ -10,8 +10,8 @@ import CodableUI
 
 extension CodableUIBuilder {
 	
-	@CodableViewBuilder
-	var complexView: CodableView {
+	@ViewCodableBuilder
+	var complexView: ViewCodable {
 		VStackCodable {
 
 			TextCodable("In Sonsequat, Urna ut Felis ac Lacinia Feugiat?")
@@ -19,8 +19,7 @@ extension CodableUIBuilder {
 				.font(.title2)
 			
 			AsyncImageCodable(
-				url: URL(string: "https://picsum.photos/400/600"),
-				resize: .true
+				url: URL(string: "https://picsum.photos/400/600")
 			) {
 				ImageCodable(systemName: "exclamationmark.triangle.fill")
 			} placeholder: {
@@ -30,9 +29,12 @@ extension CodableUIBuilder {
 					ProgressViewCodable()
 				}
 			}
+			.resizable()
 			.frame(maxWidth: .infinity)
 			.frame(height: 300)
-			.clipShape { CapsuleCodable() }
+			.clipShape {
+				RoundedRectangleCodable(cornerRadius: 12)
+			}
 			
 			HStackCodable {
 				TextCodable("by")
@@ -84,9 +86,9 @@ extension CodableUIBuilder {
 		)
 		.padding(20)
 		.background {
-			RoundedRectangleCodable(cornerRadius: 20
-//				.fill(ColorCodable(light: .white(0.9), dark: .white(0.1)))
-//				.stroke(ColorCodable(light: .white(0.8), dark: .white(0.2)))
+			RoundedRectangleCodable(cornerRadius: 20)
+				.fill(ColorCodable(light: .white(0.9), dark: .white(0.1)))
+				.stroke(ColorCodable(light: .white(0.8), dark: .white(0.2)))
 		}
 		.padding(20)
 		.frame(maxWidth: .infinity)
