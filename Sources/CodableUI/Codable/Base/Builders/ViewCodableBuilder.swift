@@ -30,6 +30,12 @@ public struct ViewCodableBuilder {
 		)
 	}
 	
+	// MARK: - ViewCodableProvider -
+	
+	public static func buildExpression(_ provider: any ViewCodableProvider) -> ViewCodable {
+		provider.body
+	}
+	
 	// MARK: - ViewCodable types -
 	
 	public static func buildExpression(_ view: ProgressViewCodable) -> ViewCodable {

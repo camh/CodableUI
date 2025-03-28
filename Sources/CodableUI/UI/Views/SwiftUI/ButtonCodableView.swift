@@ -1,21 +1,15 @@
 //
-//  ButtonCodable+UI.swift
+//  ButtonCodableView.swift
 //  CodableUI
 //
-//  Created by Cam Hunt on 3/25/25.
+//  Created by Cam Hunt on 3/28/25.
 //
 
 #if canImport(SwiftUI)
 
 import SwiftUI
 
-extension ButtonCodable: View {
-	public var body: some View {
-		CodableButton(buttonCodable: self)
-	}
-}
-
-struct CodableButton: View, Identifiable {
+struct ButtonCodableView: View, Identifiable {
 	
 	let buttonCodable: ButtonCodable
 	@Environment(\.codableActionHandler) private var actionHandler

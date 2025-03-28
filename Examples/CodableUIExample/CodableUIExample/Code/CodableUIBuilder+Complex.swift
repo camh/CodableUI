@@ -51,32 +51,12 @@ extension CodableUIBuilder {
 			TextCodable(bodyText)
 			
 			HStackCodable {
-				ButtonCodable {
+				ArticleButtonCodable(title: "Share", backgroundColor: .gray) {
 					ActionCodable(name: "share_article", value: "article_id")
-				} label: {
-					TextCodable("Share")
 				}
-				.foregroundStyle(light: .white, dark: .black)
-				.padding(.vertical, 8)
-				.padding(.horizontal, 15)
-				.background {
-					CapsuleCodable()
-						.fill(.gray)
-				}
-				
 				SpacerCodable()
-				
-				ButtonCodable {
+				ArticleButtonCodable(title: "Read more", backgroundColor: .blue) {
 					ActionCodable(name: "read_more", value: "article_id")
-				} label: {
-					TextCodable("Read more")
-				}
-				.foregroundStyle(light: .white, dark: .black)
-				.padding(.vertical, 8)
-				.padding(.horizontal, 15)
-				.background {
-					CapsuleCodable()
-						.fill(.blue)
 				}
 			}
 		}
@@ -98,6 +78,26 @@ extension CodableUIBuilder {
 	 """
 	 In consequat, urna ut lacinia feugiat, augue erat vestibulum elit, in euismod nunc risus id ipsum. Nulla vel cursus purus. Suspendisse mollis molestie elit quis placerat. Suspendisse convallis congue purus vel gravida. Nam vehicula justo ante, vitae congue libero rutrum ut. \n\nIn placerat est arcu, eu porttitor eros porttitor quis. \n\nUt dapibus, elit ac semper lobortis, felis dui tincidunt lorem, ac auctor nisl nunc sed lorem. Nulla facilisi. Phasellus neque quam, tempus at rhoncus at, accumsan a augue. Integer sed sagittis elit.Aliquam nec leo sed nulla faucibus fringilla nec eget risus. Nam blandit mi eget nisi aliquet, a vestibulum massa porttitor. \n\nUt finibus dictum ipsum vitae pretium. Curabitur suscipit orci nunc, non aliquet purus tempus ac. In mattis efficitur erat vitae malesuada. In sagittis commodo nunc ut convallis. \n\nInteger in orci nunc. Cras rutrum augue ut risus bibendum, non tincidunt purus dignissim. Mauris scelerisque felis non tincidunt interdum.
 	 """
+	}
+}
+
+struct ArticleButtonCodable: ViewCodableProvider {
+	
+	let title: String
+	let backgroundColor: ColorCodable
+	let action: () -> ActionCodable?
+	
+	var body: ViewCodable {
+		ButtonCodable(action: action) {
+			TextCodable(title)
+		}
+		.foregroundStyle(light: .white, dark: .black)
+		.padding(.vertical, 8)
+		.padding(.horizontal, 15)
+		.background {
+			CapsuleCodable()
+				.fill(backgroundColor)
+		}
 	}
 }
 
