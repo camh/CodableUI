@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "CodableUI",
-	platforms: [.iOS(.v17), .macCatalyst(.v15), .macOS(.v15)],
+	platforms: [.iOS(.v17), .macCatalyst(.v17), .macOS(.v14)],
 	products: [
 		.library(
 			name: "CodableUI",

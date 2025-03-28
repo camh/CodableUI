@@ -30,7 +30,7 @@ public struct ToolbarItemCodable: Codable, Hashable, Identifiable, Sendable {
 	
 	public init(
 		placement: ToolbarItemPlacementCodable = .automatic,
-		content: () -> CodableView
+		@CodableViewBuilder content: () -> CodableView
 	) {
 		self.placement = placement
 		self.content = content()

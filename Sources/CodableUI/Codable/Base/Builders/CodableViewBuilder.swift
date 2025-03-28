@@ -34,7 +34,7 @@ public struct CodableViewBuilder {
 		.spacer(view)
 	}
 	
-	public static func buildExpression(_ view: ShapeCodableView) -> CodableView {
+	public static func buildExpression(_ view: ShapeCodable) -> CodableView {
 		.shape(view)
 	}
 	
@@ -76,5 +76,27 @@ public struct CodableViewBuilder {
 	
 	public static func buildExpression(_ view: ScrollViewCodable) -> CodableView {
 		.scrollView(view)
+	}
+	
+	// MARK: - Shapes -
+	
+	public static func buildExpression(_ shape: CircleCodable) -> CodableView {
+		.shape(.circle(shape))
+	}
+	
+	public static func buildExpression(_ shape: RectangleCodable) -> CodableView {
+		.shape(.rectangle(shape))
+	}
+	
+	public static func buildExpression(_ shape: EllipseCodable) -> CodableView {
+		.shape(.ellipse(shape))
+	}
+	
+	public static func buildExpression(_ shape: CapsuleCodable) -> CodableView {
+		.shape(.capsule(shape))
+	}
+	
+	public static func buildExpression(_ shape: RoundedRectangleCodable) -> CodableView {
+		.shape(.roundedRectangle(shape))
 	}
 }

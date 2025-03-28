@@ -32,7 +32,7 @@ extension CodableUIBuilder {
 			}
 			.frame(maxWidth: .infinity)
 			.frame(height: 300)
-			.clipShape(.roundedRectangle(cornerRadius: 10))
+			.clipShape { CapsuleCodable() }
 			
 			HStackCodable {
 				TextCodable("by")
@@ -58,7 +58,7 @@ extension CodableUIBuilder {
 				.padding(.vertical, 8)
 				.padding(.horizontal, 15)
 				.background {
-					ShapeCodableView(.capsule)
+					CapsuleCodable()
 						.fill(.gray)
 				}
 				
@@ -73,7 +73,7 @@ extension CodableUIBuilder {
 				.padding(.vertical, 8)
 				.padding(.horizontal, 15)
 				.background {
-					ShapeCodableView(.capsule)
+					CapsuleCodable()
 						.fill(.blue)
 				}
 			}
@@ -84,9 +84,9 @@ extension CodableUIBuilder {
 		)
 		.padding(20)
 		.background {
-			ShapeCodableView(.roundedRectangle(cornerRadius: 20))
-				.fill(ColorCodable(light: .white(0.9), dark: .white(0.1)))
-				.stroke(ColorCodable(light: .white(0.8), dark: .white(0.2)))
+			RoundedRectangleCodable(cornerRadius: 20
+//				.fill(ColorCodable(light: .white(0.9), dark: .white(0.1)))
+//				.stroke(ColorCodable(light: .white(0.8), dark: .white(0.2)))
 		}
 		.padding(20)
 		.frame(maxWidth: .infinity)

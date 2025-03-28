@@ -12,7 +12,9 @@ extension ModifiableContent {
 }
 
 extension ModifiableContent {
-	public func clipShape(_ shape: ShapeCodable) -> Self {
-		addModifier(.clipShape(shape))
+	public func clipShape(
+		@CodableShapeBuilder _ shape: () -> ShapeCodable
+	) -> Self {
+		addModifier(.clipShape(shape()))
 	}
 }

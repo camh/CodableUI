@@ -58,7 +58,7 @@ public struct ChildrenViewBuilder {
 		.spacer(view)
 	}
 	
-	public static func buildExpression(_ view: ShapeCodableView) -> CodableView {
+	public static func buildExpression(_ view: ShapeCodable) -> CodableView {
 		.shape(view)
 	}
 	
@@ -101,4 +101,27 @@ public struct ChildrenViewBuilder {
 	public static func buildExpression(_ view: ScrollViewCodable) -> CodableView {
 		.scrollView(view)
 	}
+	
+	// MARK: - Shapes -
+	
+	public static func buildExpression(_ shape: CircleCodable) -> ShapeCodable {
+		.circle(shape)
+	}
+	
+	public static func buildExpression(_ shape: RectangleCodable) -> ShapeCodable {
+		.rectangle(shape)
+	}
+	
+	public static func buildExpression(_ shape: EllipseCodable) -> ShapeCodable {
+		.ellipse(shape)
+	}
+	
+	public static func buildExpression(_ shape: CapsuleCodable) -> ShapeCodable {
+		.capsule(shape)
+	}
+	
+	public static func buildExpression(_ shape: RoundedRectangleCodable) -> ShapeCodable {
+		.roundedRectangle(shape)
+	}
+	
 }

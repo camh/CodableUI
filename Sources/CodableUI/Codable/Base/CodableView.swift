@@ -12,7 +12,7 @@ public indirect enum CodableView: ViewCodable, Sendable {
 	case progress(ProgressViewCodable)
 	case spacer(SpacerCodable)
 
-	case shape(ShapeCodableView)
+	case shape(ShapeCodable)
 	case color(ColorCodable)
 	
 	case text(TextCodable)

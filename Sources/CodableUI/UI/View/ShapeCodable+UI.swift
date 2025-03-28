@@ -1,15 +1,17 @@
 //
-//  ShapeCodableView+UI.swift
+//  ShapeCodable+UI.swift
 //  CodableUI
 //
 //  Created by Cam Hunt on 3/24/25.
 //
 
+#if canImport(SwiftUI)
+
 import SwiftUI
 
-extension ShapeCodableView: View {
+extension ShapeCodable: View {
 	public var body: some View {
-		switch shape {
+		switch self {
 		case .capsule(let capsule):
 			Capsule(
 				style: capsule.style.style
@@ -58,3 +60,5 @@ extension ShapeCodableView: View {
 		}
 	}
 }
+
+#endif
