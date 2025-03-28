@@ -5,6 +5,8 @@
 //  Created by Cam Hunt on 3/24/25.
 //
 
+#if canImport(SwiftUI)
+
 import SwiftUI
 
 extension ViewCodable: View {
@@ -52,3 +54,5 @@ extension ViewCodable: View {
 			.codableApply(modifiers)
 	}
 }
+
+#endif

@@ -5,6 +5,8 @@
 //  Created by Cam Hunt on 3/25/25.
 //
 
+#if canImport(SwiftUI)
+
 import SwiftUI
 
 extension CGLineCapCodable {
@@ -16,3 +18,5 @@ extension CGLineCapCodable {
 		}
 	}
 }
+
+#endif

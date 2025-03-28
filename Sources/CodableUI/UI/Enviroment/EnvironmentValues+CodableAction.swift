@@ -5,6 +5,8 @@
 //  Created by Cam Hunt on 3/26/25.
 //
 
+#if canImport(SwiftUI)
+
 import SwiftUI
 
 public struct CodableActionKey: EnvironmentKey {
@@ -17,3 +19,5 @@ extension EnvironmentValues {
 		set { self[CodableActionKey.self] = newValue }
 	}
 }
+
+#endif

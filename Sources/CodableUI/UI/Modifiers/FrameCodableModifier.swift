@@ -5,6 +5,8 @@
 //  Created by Cam Hunt on 3/25/25.
 //
 
+#if canImport(SwiftUI)
+
 import SwiftUI
 
 struct FrameCodableModifier: ViewModifier {
@@ -33,3 +35,5 @@ struct FrameCodableModifier: ViewModifier {
 		}
 	}
 }
+
+#endif

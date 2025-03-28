@@ -5,6 +5,8 @@
 //  Created by Cam Hunt on 3/24/25.
 //
 
+#if canImport(SwiftUI)
+
 #if canImport(UIKit)
 import UIKit
 #else
@@ -32,3 +34,5 @@ extension PlatformColor {
 	}
 #endif
 }
+
+#endif

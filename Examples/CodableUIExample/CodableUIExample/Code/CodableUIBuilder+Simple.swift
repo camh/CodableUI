@@ -18,7 +18,7 @@ extension CodableUIBuilder {
 				.foregroundStyle(.green)
 			TextCodable("Hello, world!")
 				.frame(maxWidth: .infinity, alignment: .leading)
-				.font(.body)
+				.font(.system(.body, weight: .bold))
 				.font(.system(size: 20, weight: .bold))
 				.foregroundStyle(light: .black, dark: .white)
 				.padding(10)

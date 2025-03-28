@@ -5,6 +5,8 @@
 //  Created by Cam Hunt on 3/26/25.
 //
 
+#if canImport(SwiftUI)
+
 import SwiftUI
 
 extension AxisCodable {
@@ -15,3 +17,5 @@ extension AxisCodable {
 		}
 	}
 }
+
+#endif

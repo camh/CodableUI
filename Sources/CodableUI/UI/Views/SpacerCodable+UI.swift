@@ -5,6 +5,8 @@
 //  Created by Cam Hunt on 3/24/25.
 //
 
+#if canImport(SwiftUI)
+
 import SwiftUI
 
 extension SpacerCodable: View {
@@ -12,3 +14,5 @@ extension SpacerCodable: View {
 		Spacer(minLength: minLength?.rawValue)
 	}
 }
+
+#endif
