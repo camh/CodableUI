@@ -114,11 +114,7 @@ That said, even with a limited set of views and modifiers, making a fairly compl
 The `ColorCodable` enum supports many different colors definitions. You can define a system color like `Color.pink` or `Color.green`. You can define a percentage of white that mirrors `Color(white:opacity)`. You can define a color with a hex string. You can define HSBA and RGBA colors. Since `ColorCodable` is an `indirect` enum, you can also define a dynamic color with light and dark `ColorCodable` values, like this:
 
 ```swift 
-modifiers: [
-  .foregroundColor(
-    .dynamic(light: .system(.black), dark: .system(.white))
-  )
-]
+ColorCodable(light: .black, dark: .white)
 ```
 
 This allows us to create views that can respond to the current `colorScheme` in the enviroment:
