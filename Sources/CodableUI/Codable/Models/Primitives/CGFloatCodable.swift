@@ -7,22 +7,25 @@
 
 import Foundation
 
+public typealias CGFloatCoablePrimitive = Double
+
 public struct CGFloatCodable: Codable, ExpressibleByFloatLiteral, ExpressibleByIntegerLiteral, Hashable, Sendable {
-	public typealias FloatLiteralType = Double
+	public typealias FloatLiteralType = CGFloatCoablePrimitive
 	public typealias IntegerLiteralType = Int
 	
-	let rawValue: CGFloat
+	let rawValue: CGFloatCoablePrimitive
 	
-	init(_ rawValue: CGFloat) {
-		self.rawValue = rawValue
+	init(_ rawValue: CGFloatCoablePrimitive) {
+		print(type(of: CGFloatCoablePrimitive.self))
+		self.rawValue = CGFloatCoablePrimitive(rawValue)
 	}
 	
-	public init(floatLiteral value: Double) {
-		self.rawValue = CGFloat(value)
+	public init(floatLiteral value: CGFloatCoablePrimitive) {
+		self.rawValue = CGFloatCoablePrimitive(value)
 	}
 	
 	public init(integerLiteral value: Int) {
-		self.rawValue = CGFloat(value)
+		self.rawValue = CGFloatCoablePrimitive(value)
 	}
 	
 	public static var infinity: Self {
@@ -36,12 +39,12 @@ public struct CGFloatCodable: Codable, ExpressibleByFloatLiteral, ExpressibleByI
 			if stringValue == "infinity" {
 				self.rawValue = .infinity
 				return
-			} else if let double = Double(stringValue) {
-				self.rawValue = CGFloat(double)
+			} else if let primitive = CGFloatCoablePrimitive(stringValue) {
+				self.rawValue = primitive
 				return
 			}
 		} catch DecodingError.typeMismatch {}
-		self.rawValue = try container.decode(CGFloat.self)
+		self.rawValue = try container.decode(CGFloatCoablePrimitive.self)
 	}
 	
 	public func encode(to encoder: any Encoder) throws {

@@ -12,12 +12,12 @@ import SwiftUI
 extension StrokeStyleCodable {
 	var strokeStyle: StrokeStyle {
 		StrokeStyle(
-			lineWidth: lineWidth.rawValue,
+			lineWidth: lineWidth.cgFloat,
 			lineCap: lineCap.lineCap,
 			lineJoin: lineJoin.lineJoin,
-			miterLimit: miterLimit.rawValue,
-			dash: dash.map { $0.rawValue },
-			dashPhase: dashPhase.rawValue
+			miterLimit: miterLimit.cgFloat,
+			dash: dash.map { $0.cgFloat },
+			dashPhase: dashPhase.cgFloat
 		)
 	}
 }

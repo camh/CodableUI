@@ -17,7 +17,7 @@ public struct RoundedRectangleCodable: CodableShape {
 		case modifiers
 	}
 	
-	public var cornerSize: CGSize
+	public var cornerSize: CGSizeCodable
 	public var style: RoundedCornerStyleCodable
 	
 	public var fill: ColorCodable?
@@ -27,7 +27,7 @@ public struct RoundedRectangleCodable: CodableShape {
 	public let id: UUID
 	
 	public init(
-		cornerSize: CGSize,
+		cornerSize: CGSizeCodable,
 		style: RoundedCornerStyleCodable = .continuous
 	) {
 		self.cornerSize = cornerSize
@@ -40,9 +40,9 @@ public struct RoundedRectangleCodable: CodableShape {
 		cornerRadius: CGFloatCodable,
 		style: RoundedCornerStyleCodable = .continuous
 	) {
-		self.cornerSize = CGSize(
-			width: cornerRadius.rawValue,
-			height: cornerRadius.rawValue
+		self.cornerSize = CGSizeCodable(
+			width: cornerRadius,
+			height: cornerRadius
 		)
 		self.style = style
 		self.modifiers = []
@@ -53,7 +53,7 @@ public struct RoundedRectangleCodable: CodableShape {
 extension RoundedRectangleCodable {
 	public init(from decoder: any Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		self.cornerSize = try container.decode(CGSize.self, forKey: .cornerSize)
+		self.cornerSize = try container.decode(CGSizeCodable.self, forKey: .cornerSize)
 		self.style = try container.decode(RoundedCornerStyleCodable.self, forKey: .style)
 		self.fill = try container.decodeIfPresent(ColorCodable.self, forKey: .fill)
 		self.stroke = try container.decodeIfPresent(StrokeCodable.self, forKey: .stroke)

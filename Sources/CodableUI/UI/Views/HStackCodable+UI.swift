@@ -13,7 +13,7 @@ extension HStackCodable: View {
 	public var body: some View {
 		HStack(
 			alignment: alignment?.verticalAlignment ?? .center,
-			spacing: spacing?.rawValue
+			spacing: spacing?.cgFloat
 		) {
 			ForEach(children) { child in
 				child.body

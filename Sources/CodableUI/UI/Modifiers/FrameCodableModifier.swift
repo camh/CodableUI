@@ -17,19 +17,19 @@ struct FrameCodableModifier: ViewModifier {
 		case .fixed(let fixedFrame):
 			content
 				.frame(
-					width: fixedFrame.width?.rawValue,
-					height: fixedFrame.height?.rawValue,
+					width: fixedFrame.width?.cgFloat,
+					height: fixedFrame.height?.cgFloat,
 					alignment: fixedFrame.alignment?.alignment ?? .center
 				)
 		case .flexible(let flexibleFrame):
 			content
 				.frame(
-					minWidth: flexibleFrame.minWidth?.rawValue,
-					idealWidth: flexibleFrame.idealWidth?.rawValue,
-					maxWidth: flexibleFrame.maxWidth?.rawValue,
-					minHeight: flexibleFrame.minHeight?.rawValue,
-					idealHeight: flexibleFrame.idealHeight?.rawValue,
-					maxHeight: flexibleFrame.maxHeight?.rawValue,
+					minWidth: flexibleFrame.minWidth?.cgFloat,
+					idealWidth: flexibleFrame.idealWidth?.cgFloat,
+					maxWidth: flexibleFrame.maxWidth?.cgFloat,
+					minHeight: flexibleFrame.minHeight?.cgFloat,
+					idealHeight: flexibleFrame.idealHeight?.cgFloat,
+					maxHeight: flexibleFrame.maxHeight?.cgFloat,
 					alignment: flexibleFrame.alignment?.alignment ?? .center
 				)
 		}

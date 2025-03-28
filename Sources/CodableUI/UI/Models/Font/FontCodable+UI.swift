@@ -20,7 +20,7 @@ extension FontCodable {
 			)
 		case .systemFixed(let systemFixed):
 			Font.system(
-				size: systemFixed.size.rawValue,
+				size: systemFixed.size.cgFloat,
 				weight: systemFixed.weight?.weight,
 				design: systemFixed.design?.design
 			)
@@ -28,19 +28,19 @@ extension FontCodable {
 			if let style = custom.relativeTo?.style {
 				Font.custom(
 					custom.name,
-					size: custom.size.rawValue,
+					size: custom.size.cgFloat,
 					relativeTo: style
 				)
 			} else {
 				Font.custom(
 					custom.name,
-					size: custom.size.rawValue
+					size: custom.size.cgFloat
 				)
 			}
 		case .customFixed(let customFixed):
 			Font.custom(
 				customFixed.name,
-				fixedSize: customFixed.fixedSize.rawValue
+				fixedSize: customFixed.fixedSize.cgFloat
 			)
 		}
 	}

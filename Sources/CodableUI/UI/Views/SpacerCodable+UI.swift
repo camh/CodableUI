@@ -11,7 +11,7 @@ import SwiftUI
 
 extension SpacerCodable: View {
 	public var body: some View {
-		Spacer(minLength: minLength?.rawValue)
+		Spacer(minLength: minLength?.cgFloat)
 	}
 }
 

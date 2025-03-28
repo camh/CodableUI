@@ -12,10 +12,10 @@ import SwiftUI
 extension EdgeInsetsCodable {
 	var edgeInsets: EdgeInsets {
 		.init(
-			top: top?.rawValue ?? 0,
-			leading: leading?.rawValue ?? 0,
-			bottom: bottom?.rawValue ?? 0,
-			trailing: trailing?.rawValue ?? 0
+			top: top?.cgFloat ?? 0,
+			leading: leading?.cgFloat ?? 0,
+			bottom: bottom?.cgFloat ?? 0,
+			trailing: trailing?.cgFloat ?? 0
 		)
 	}
 }

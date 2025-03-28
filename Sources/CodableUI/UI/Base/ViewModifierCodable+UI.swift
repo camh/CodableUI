@@ -49,7 +49,7 @@ extension ViewModifierCodable: ViewModifier {
 		case .opacity(let opacity):
 			content.opacity(opacity.rawValue)
 		case .blur(let radius):
-			content.blur(radius: radius.rawValue)
+			content.blur(radius: radius.cgFloat)
 			
 		case .padding(let insets):
 			content.padding(insets.edgeInsets)

@@ -13,7 +13,7 @@ extension AsyncImageCodable: View {
 	public var body: some View {
 		AsyncImage(
 			url: url,
-			scale: scale?.rawValue ?? 1
+			scale: scale?.cgFloat ?? 1
 		) { phase in
 			switch phase {
 			case .success(let image):

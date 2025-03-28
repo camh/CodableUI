@@ -23,7 +23,7 @@ struct ClipShapeCodableModifier: ViewModifier {
 		case .roundedRectangle(let roundedRectangle):
 			content.clipShape(
 				RoundedRectangle(
-					cornerSize: roundedRectangle.cornerSize,
+					cornerSize: roundedRectangle.cornerSize.cgSize,
 					style: roundedRectangle.style.style
 				)
 			)

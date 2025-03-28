@@ -12,7 +12,7 @@ import SwiftUI
 extension RoundedRectangleCodable: View {
 	public var body: some View {
 		RoundedRectangle(
-			cornerSize: cornerSize,
+			cornerSize: cornerSize.cgSize,
 			style: style.style
 		)
 		.fill(fill?.color ?? Color.clear)

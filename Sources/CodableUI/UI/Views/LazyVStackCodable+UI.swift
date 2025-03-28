@@ -13,7 +13,7 @@ extension LazyVStackCodable: View {
 	public var body: some View {
 		LazyVStack(
 			alignment: alignment?.horizontalAlignment ?? .center,
-			spacing: spacing?.rawValue
+			spacing: spacing?.cgFloat
 		) {
 			ForEach(children) { child in
 				child.body
