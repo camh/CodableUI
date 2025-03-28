@@ -16,7 +16,6 @@ public struct CGFloatCodable: Codable, ExpressibleByFloatLiteral, ExpressibleByI
 	let rawValue: CGFloatCoablePrimitive
 	
 	init(_ rawValue: CGFloatCoablePrimitive) {
-		print(type(of: CGFloatCoablePrimitive.self))
 		self.rawValue = CGFloatCoablePrimitive(rawValue)
 	}
 	
