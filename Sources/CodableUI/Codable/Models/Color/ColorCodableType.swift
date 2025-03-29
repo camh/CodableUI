@@ -6,10 +6,10 @@
 //
 
 public indirect enum ColorCodableType: Codable, Hashable, Sendable {
-	case white(ColorWhite)
-	case system(SystemColor)
+	case white(ColorWhiteCodable)
+	case system(ColorSystemCodable)
 	case hex(String)
-	case hsba(ColorHSBA)
-	case rgba(ColorRBGA)
+	case hsb(ColorHSBCodable)
+	case rgb(ColorRBGCodable)
 	case dynamic(light: ColorCodableType, dark: ColorCodableType)
 }

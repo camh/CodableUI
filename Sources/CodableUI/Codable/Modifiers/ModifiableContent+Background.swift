@@ -19,6 +19,6 @@ extension ModifiableContent {
 	public func background(
 		@ViewCodableBuilder _ view: () -> ViewCodable
 	) -> Self {
-		addModifier(.backgroundView(view()))
+		addModifier(.background(view()))
 	}
 }

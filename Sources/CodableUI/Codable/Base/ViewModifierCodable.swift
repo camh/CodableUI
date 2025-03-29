@@ -8,11 +8,16 @@
 public enum ViewModifierCodable: Codable, Hashable, Sendable {
 	case foregroundColor(ColorCodable)
 	case backgroundColor(ColorCodable)
-	case backgroundView(ViewCodable)
+	case background(ViewCodable)
+	case overlayColor(ColorCodable)
+	case overlay(ViewCodable)
 
 	case font(FontCodable)
 	case multilineTextAlignment(TextAlignmentCodable)
 	case lineLimit(Int?)
+	case textCase(TextCaseCodable)
+	case kerning(CGFloatCodable)
+	case tracking(CGFloatCodable)
 	
 	case scaledToFill
 	case scaledToFit

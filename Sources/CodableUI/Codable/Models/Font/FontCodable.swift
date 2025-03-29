@@ -6,6 +6,7 @@
 //
 
 public enum FontCodable: Codable, Hashable, Sendable {
+	
 	case systemStyle(FontSystemCodable)
 	case systemFixed(FontSystemFixedCodable)
 	case customStyle(FontCustomCodable)
@@ -17,6 +18,12 @@ public enum FontCodable: Codable, Hashable, Sendable {
 		weight: FontWeightCodable? = nil
 	) -> Self {
 		.systemStyle(.init(style: style, design: design, weight: weight))
+	}
+	
+	public static func system(
+		_ systemStyle: FontSystemCodable
+	) -> Self {
+		.systemStyle(systemStyle)
 	}
 	
 	public static func system(

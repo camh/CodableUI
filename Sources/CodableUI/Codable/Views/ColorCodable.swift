@@ -11,23 +11,29 @@ public struct ColorCodable: CodableView {
 	
 	enum CodingKeys: String, CodingKey {
 		case colorType
+		case opacity
 		case modifiers
 	}
 	
-	public init(_ colorType: ColorCodableType) {
+	public var colorType: ColorCodableType
+	public var opacity: DoubleCodable
+	public var modifiers: [ViewModifierCodable]
+	public let id: UUID
+	
+	public init(_ colorType: ColorCodableType, opacity: DoubleCodable? = nil) {
 		self.colorType = colorType
+		self.opacity = opacity ?? 1
 		self.modifiers = []
 		self.id = UUID()
 	}
-	
-	public var colorType: ColorCodableType
-	public var modifiers: [ViewModifierCodable]
-	public let id: UUID
 }
 
 extension ColorCodable {
 	public init(white: DoubleCodable, opacity: DoubleCodable? = nil) {
-		self = .init(.white(ColorWhite(white: white, opacity: opacity)))
+		self = .init(
+			.white(ColorWhiteCodable(white: white)),
+			opacity: opacity
+		)
 	}
 	
 	public init(hex: String) {
@@ -38,42 +44,50 @@ extension ColorCodable {
 		hue: DoubleCodable,
 		saturation: DoubleCodable,
 		brightness: DoubleCodable,
-		opacity: DoubleCodable = 1.0
+		opacity: DoubleCodable? = nil
 	) {
-		let hsba = ColorHSBA(
+		let hsb = ColorHSBCodable(
 			hue: hue,
 			saturation: saturation,
-			brightness: brightness,
-			opacity: opacity
+			brightness: brightness
 		)
-		self = .init(.hsba(hsba))
+		self = .init(.hsb(hsb), opacity: opacity)
 	}
 	
 	public init(
 		red: DoubleCodable,
 		green: DoubleCodable,
 		blue: DoubleCodable,
-		opacity: DoubleCodable = 1.0
+		opacity: DoubleCodable? = nil
 	) {
-		let rgba = ColorRBGA(
+		let rgb = ColorRBGCodable(
 			red: red,
 			 green: green,
-			 blue: blue,
-			 opacity: opacity
+			 blue: blue
 		 )
-		self = .init(.rgba(rgba))
+		self = .init(.rgb(rgb), opacity: opacity)
 	}
 	
 	public init(light: ColorCodable, dark: ColorCodable) {
 		self = .init(.dynamic(light: light.colorType, dark: dark.colorType))
 	}
 	
-	public init(_ system: SystemColor) {
+	public init(_ system: ColorSystemCodable) {
 		self = .init(.system(system))
 	}
 	
+	public static func hex(_ hex: String) -> Self {
+		.init(hex: hex)
+	}
+	
 	public static func white(_ white: DoubleCodable, opacity: DoubleCodable? = nil) -> Self {
-		return Self.init(white: white, opacity: opacity)
+		.init(white: white, opacity: opacity)
+	}
+	
+	public func opacity(_ opacity: DoubleCodable) -> Self {
+		var copy = self
+		copy.opacity = opacity
+		return copy
 	}
 }
 
@@ -81,12 +95,14 @@ extension ColorCodable {
 	public init(from decoder: any Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.colorType = try container.decode(ColorCodableType.self, forKey: .colorType)
+		self.opacity = try container.decode(DoubleCodable.self, forKey: .opacity)
 		self.modifiers = try container.decode([ViewModifierCodable].self, forKey: .modifiers)
 		self.id = UUID()
 	}
 	public func encode(to encoder: any Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(colorType, forKey: .colorType)
+		try container.encode(opacity, forKey: .opacity)
 		try container.encode(modifiers, forKey: .modifiers)
 	}
 }

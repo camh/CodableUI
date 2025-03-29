@@ -6,7 +6,7 @@
 //
 
 extension ModifiableContent {
-	public func blur(_ radius: CGFloatCodable) -> Self {
+	public func blur(radius: CGFloatCodable) -> Self {
 		addModifier(.blur(radius))
 	}
 }

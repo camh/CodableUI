@@ -1,5 +1,5 @@
 //
-//  ColorWhite+UI.swift
+//  ColorRBGCodable+UI.swift
 //  CodableUI
 //
 //  Created by Cam Hunt on 3/24/25.
@@ -9,14 +9,14 @@
 
 import SwiftUI
 
-extension ColorWhite {
+extension ColorRBGCodable {
 	var color: Color {
 		Color(
-			white: white.rawValue,
-			opacity: opacity?.rawValue ?? 1
+			red: red.rawValue,
+			green: green.rawValue,
+			blue: blue.rawValue
 		)
 	}
 }
-
 
 #endif

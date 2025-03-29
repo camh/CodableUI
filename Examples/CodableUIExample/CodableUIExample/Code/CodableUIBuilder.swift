@@ -12,6 +12,7 @@ struct CodableUIBuilder {
 	enum Kind: String, CaseIterable, Identifiable {
 		case simple
 		case complex
+		case catalog
 		
 		var id: String {
 			rawValue
@@ -24,6 +25,8 @@ struct CodableUIBuilder {
 			simpleView
 		case .complex:
 			complexView
+		case .catalog:
+			catalog
 		}
 	}
 	

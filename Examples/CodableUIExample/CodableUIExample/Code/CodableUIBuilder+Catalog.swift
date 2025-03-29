@@ -1,5 +1,5 @@
 //
-//  CatalogView.swift
+//  CodableUIBuilder+Catalog.swift
 //  CodableUIExample
 //
 //  Created by Cam Hunt on 3/28/25.
@@ -8,10 +8,25 @@
 import SwiftUI
 import CodableUI
 
-struct CatalogCodableModifier: ViewCodableModifierRepresentable {
+extension CodableUIBuilder {
+	@ViewCodableBuilder
+	var catalog: ViewCodable {
+		CatalogCodableView()
+	}
+}
+
+struct CatalogButtonStyle: ViewCodableModifierRepresentable {
+	let color: ColorCodable
+	
 	func body(content: () -> ViewCodable) -> ViewCodable {
 		content()
-			.blur(1)
+			.font(.body.bold())
+			.foregroundStyle(color)
+			.padding(15)
+			.background {
+				CapsuleCodable()
+					.fill(color.opacity(0.2))
+			}
 	}
 }
 
@@ -52,18 +67,36 @@ struct CatalogCodableView: ViewCodableRepresentable {
 					}
 				}
 				.padding(20)
-				.modifier(CatalogCodableModifier())
+				.blur(radius: 1)
 				
 				HStackCodable(spacing: 10) {
 					for type in CatalogType.allCases {
-						TextCodable(type.rawValue)
+						switch type {
+							case .complete:
+								TextCodable(type.rawValue)
+								.foregroundStyle(.pink)
+						case .reduced:
+							TextCodable(type.rawValue)
+								.foregroundStyle(.purple)
+						case .other:
+							TextCodable(type.rawValue)
+								.foregroundStyle(.blue)
+						}
 						if type != CatalogType.allCases.last {
 							TextCodable("|")
 						}
 					}
 				}
+				.tracking(2)
+				.foregroundStyle(.cyan)
+				.frame(maxWidth: .infinity)
+				.padding(20)
+				.overlay {
+					CapsuleCodable()
+						.fill(.indigo.opacity(0.5))
+						.stroke(.orange, lineWidth: 4)
+				}
 				.font(.system(.headline, design: .monospaced))
-				.padding(.bottom, 20)
 				
 				AsyncImageCodable(
 					url: URL(string: "https://picsum.photos/600/500")
@@ -103,15 +136,15 @@ struct CatalogCodableView: ViewCodableRepresentable {
 					EllipseCodable()
 						.fill(.yellow)
 						.frame(width: 300, height: 100)
-						.blur(4)
+						.blur(radius: 4)
 					CapsuleCodable()
 						.fill(.green)
 						.frame(width: 200, height: 75)
-						.blur(6)
+						.blur(radius: 6)
 					CircleCodable()
 						.fill(.blue)
 						.frame(width: 60, height: 60, alignment: .bottomTrailing)
-						.blur(8)
+						.blur(radius: 8)
 				}
 				.clipShape {
 					RoundedRectangleCodable(cornerRadius: 12)
@@ -119,29 +152,25 @@ struct CatalogCodableView: ViewCodableRepresentable {
 				.frame(maxWidth: .infinity)
 				
 				HStackCodable {
-					ButtonCodable { nil } label: {
+					ButtonCodable {
+						ActionCodable(name: "primary_button", value: "some_param")
+					} label: {
 						TextCodable("Primary")
 					}
-					.font(.system(.body, weight: .bold))
-					.foregroundStyle(.blue)
-					.padding(15)
-					.background {
-						CapsuleCodable()
-							.fill(.blue)
-							.opacity(0.2)
+					.modifier(CatalogButtonStyle(color: .blue))
+					ButtonCodable {
+						ActionCodable(name: "primary_button", value: "some_param")
+					} label: {
+						TextCodable("Destructive")
 					}
-					ButtonCodable { nil } label: {
+					.modifier(CatalogButtonStyle(color: .red))
+					ButtonCodable {
+						ActionCodable(name: "primary_button", value: "some_param")
+					} label: {
 						TextCodable("Secondary")
 					}
-					.font(.system(.body, weight: .bold))
-					.foregroundStyle(.black)
-					.padding(15)
-					.background {
-						CapsuleCodable()
-							.fill(.gray)
-							.opacity(0.2)
-					}
-					SpacerCodable()
+					.modifier(CatalogButtonStyle(color: .gray))
+					SpacerCodable(minLength: 0)
 				}
 			}
 			.padding(.horizontal, 20)
@@ -149,12 +178,6 @@ struct CatalogCodableView: ViewCodableRepresentable {
 	}
 }
 
-struct CatalogView: View {
-	var body: some View {
-		CatalogCodableView().body
-	}
-}
-
 #Preview {
-	CatalogView()
+	CodableKindView(kind: .catalog)
 }

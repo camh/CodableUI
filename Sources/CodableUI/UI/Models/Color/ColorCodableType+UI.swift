@@ -18,10 +18,10 @@ extension ColorCodableType {
 			systemColor.color
 		case .hex(let hex):
 			Color(hex: hex)
-		case .hsba(let hsba):
-			hsba.color
-		case .rgba(let rgba):
-			rgba.color
+		case .hsb(let hsb):
+			hsb.color
+		case .rgb(let rgb):
+			rgb.color
 		case .dynamic(let light, let dark):
 			Color(light: light.color, dark: dark.color)
 		}

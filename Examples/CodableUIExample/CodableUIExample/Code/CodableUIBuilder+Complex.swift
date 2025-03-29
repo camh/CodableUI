@@ -25,7 +25,11 @@ extension CodableUIBuilder {
 					.resizable()
 					.scaledToFill()
 			} error: {
-				ImageCodable(systemName: "exclamationmark.triangle.fill")
+				ZStackCodable {
+					ColorCodable(light: .black, dark: .white)
+						.opacity(0.2)
+					ImageCodable(systemName: "exclamationmark.triangle.fill")
+				}
 			} placeholder: {
 				ZStackCodable {
 					ColorCodable(light: .black, dark: .white)
@@ -48,16 +52,16 @@ extension CodableUIBuilder {
 			.foregroundStyle(light: .white(0.4), dark: .white(0.8))
 			.padding(.top, 5)
 			.padding(.bottom, 20)
-			.font(.system(.caption, design: .monospaced))
+			.font(.caption.design(.monospaced))
 			
 			TextCodable(bodyText)
 			
 			HStackCodable {
-				ArticleButtonCodable(title: "Share", backgroundColor: .gray) {
+				ArticleButtonCodable(title: "Share", background: .gray) {
 					ActionCodable(name: "share_article", value: "article_id")
 				}
 				SpacerCodable()
-				ArticleButtonCodable(title: "Read more", backgroundColor: .blue) {
+				ArticleButtonCodable(title: "Read more", background: .blue) {
 					ActionCodable(name: "read_more", value: "article_id")
 				}
 			}
@@ -83,23 +87,31 @@ extension CodableUIBuilder {
 	}
 }
 
+struct ArticleButtonStyle: ViewCodableModifierRepresentable {
+	let background: ColorCodable
+	func body(content: () -> ViewCodable) -> ViewCodable {
+		content()
+			.foregroundStyle(light: .white, dark: .black)
+			.padding(.vertical, 8)
+			.padding(.horizontal, 15)
+			.background {
+				CapsuleCodable()
+					.fill(background)
+			}
+	}
+}
+
 struct ArticleButtonCodable: ViewCodableRepresentable {
 	
 	let title: String
-	let backgroundColor: ColorCodable
+	let background: ColorCodable
 	let action: () -> ActionCodable?
 	
 	var body: ViewCodable {
 		ButtonCodable(action: action) {
 			TextCodable(title)
 		}
-		.foregroundStyle(light: .white, dark: .black)
-		.padding(.vertical, 8)
-		.padding(.horizontal, 15)
-		.background {
-			CapsuleCodable()
-				.fill(backgroundColor)
-		}
+		.modifier(ArticleButtonStyle(background: background))
 	}
 }
 

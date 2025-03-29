@@ -1,11 +1,11 @@
 //
-//  ColorWhite.swift
+//  ColorWhiteCodable.swift
 //  CodableUI
 //
 //  Created by Cam Hunt on 3/24/25.
 //
 
-public struct ColorWhite: Codable, Hashable, ExpressibleByFloatLiteral, Sendable {
+public struct ColorWhiteCodable: Codable, Hashable, ExpressibleByFloatLiteral, Sendable {
 	
 	public typealias FloatLiteralType = Double
 	

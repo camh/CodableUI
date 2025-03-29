@@ -1,11 +1,11 @@
 //
-//  SystemColor.swift
+//  ColorSystemCodable.swift
 //  CodableUI
 //
 //  Created by Cam Hunt on 3/24/25.
 //
 
-public enum SystemColor: String, Codable, Hashable, Sendable {
+public enum ColorSystemCodable: String, Codable, Hashable, Sendable {
 	case black
 	case blue
 	case brown

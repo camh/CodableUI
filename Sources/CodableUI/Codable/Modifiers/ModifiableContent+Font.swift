@@ -17,6 +17,9 @@ extension ModifiableContent {
 			)
 		)
 	}
+	public func font(_ systemStyle: FontSystemCodable) -> Self {
+		addModifier(.font(.systemStyle(systemStyle)))
+	}
 	public func font(_ font: FontCodable) -> Self {
 		addModifier(.font(font))
 	}

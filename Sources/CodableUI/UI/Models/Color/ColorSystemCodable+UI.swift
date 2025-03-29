@@ -1,5 +1,5 @@
 //
-//  SystemColor+UI.swift
+//  ColorSystemCodable+UI.swift
 //  CodableUI
 //
 //  Created by Cam Hunt on 3/24/25.
@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-extension SystemColor {
+extension ColorSystemCodable {
 	var color: Color {
 		switch self {
 		case .black: .black

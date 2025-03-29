@@ -11,7 +11,7 @@ import SwiftUI
 
 extension ColorCodable: View {
 	public var color: Color {
-		colorType.color
+		colorType.color.opacity(opacity.rawValue)
 	}
 	public var body: some View {
 		color

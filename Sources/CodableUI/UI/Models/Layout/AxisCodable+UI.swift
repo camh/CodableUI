@@ -1,5 +1,5 @@
 //
-//  Axis+UI.swift
+//  AxisCodable+UI.swift
 //  CodableUI
 //
 //  Created by Cam Hunt on 3/26/25.

@@ -6,9 +6,10 @@
 //
 
 public struct FontSystemCodable: Codable, Hashable, Sendable {
-	let style: FontStyleCodable
-	let design: FontDesignCodable?
-	let weight: FontWeightCodable?
+	
+	var style: FontStyleCodable
+	var design: FontDesignCodable?
+	var weight: FontWeightCodable?
 	
 	public init(style: FontStyleCodable, design: FontDesignCodable? = nil, weight: FontWeightCodable? = nil) {
 		self.style = style
@@ -21,14 +22,52 @@ public struct FontSystemCodable: Codable, Hashable, Sendable {
 	}
 	
 	public func weight(_ weight: FontWeightCodable) -> Self {
-		.init(
-			style: self.style,
-			design: self.design,
-			weight: weight
-		)
+		var copy = self
+		copy.weight = weight
+		return copy
+	}
+	
+	public func design(_ design: FontDesignCodable) -> Self {
+		var copy = self
+		copy.design = design
+		return copy
 	}
 	
 	public func bold() -> Self {
 		weight(.bold)
+	}
+	
+	public static var largeTitle: Self {
+		.init(style: .largeTitle)
+	}
+	public static var title: Self {
+		.init(style: .title)
+	}
+	public static var title2: Self {
+		.init(style: .title2)
+	}
+	public static var title3: Self {
+		.init(style: .title3)
+	}
+	public static var headline: Self {
+		.init(style: .headline)
+	}
+	public static var subheadline: Self {
+		.init(style: .subheadline)
+	}
+	public static var body: Self {
+		.init(style: .body)
+	}
+	public static var callout: Self {
+		.init(style: .callout)
+	}
+	public static var caption: Self {
+		.init(style: .caption)
+	}
+	public static var caption2: Self {
+		.init(style: .caption2)
+	}
+	public static var footnote: Self {
+		.init(style: .footnote)
 	}
 }

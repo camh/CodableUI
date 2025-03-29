@@ -17,8 +17,14 @@ extension ViewModifierCodable: ViewModifier {
 			content.foregroundStyle(color.color)
 		case .backgroundColor(let color):
 			content.background(color.color)
-		case .backgroundView(let view):
+		case .background(let view):
 			content.background {
+				view
+			}
+		case .overlayColor(let color):
+			content.overlay(color.color)
+		case .overlay(let view):
+			content.overlay {
 				view
 			}
 
@@ -28,6 +34,12 @@ extension ViewModifierCodable: ViewModifier {
 			content.multilineTextAlignment(alignment.textAlignment)
 		case .lineLimit(let limit):
 			content.lineLimit(limit)
+		case .textCase(let textCase):
+			content.textCase(textCase.textCase)
+		case .kerning(let kerning):
+			content.kerning(kerning.cgFloat)
+		case .tracking(let tracking):
+			content.tracking(tracking.cgFloat)
 			
 		case .scaledToFit:
 			content.scaledToFit()
