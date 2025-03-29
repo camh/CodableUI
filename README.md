@@ -60,6 +60,7 @@ This is the result:
 
 Right now I've implemented codable structures for the following views:
 
+- `EmptyView` →  `EmptyViewCodable`
 - `Spacer` → `SpacerCodable`
 - `ProgressView` → `ProgressViewCodable`
 - `Text` → `TextCodable`
@@ -100,6 +101,7 @@ These are the implemented modififers:
 - `.padding(_ insets:)`
 - `toolbar()`
 - `onTapGesture()`
+- `containerRelativeFrame()`
 
 These are supported by many, many more codable representations that are dependencies of all those views and modifiers. Font, frame, Color, stroke, shape … these all have codable representations. I even have a codable representation for `CGFloat` because the default `Codable` implementation for `CGFloat` throws an error when the value is `.infinity`, which is important to encode for `.frame(minWidth:idealWidth: ...)`.
 
@@ -127,22 +129,18 @@ Since `AsyncImage` is mainly configured with a closure, this was tricky to imple
 
 ```swift
 AsyncImageCodable(
-  url: URL(string: "https://picsum.photos/400/600")
-) { // error closure
+  url: URL(string: "https://picsum.photos/600/500")
+) { image in
+  image
+    .resizable()
+    .scaledToFill()
+} error: {
   ImageCodable(systemName: "exclamationmark.triangle.fill")
 } placeholder: {
-  ZStackCodable {
-    ColorCodable(light: .black, dark: .white)
-      .opacity(0.2)
-    ProgressViewCodable()
-  }
+  ProgressViewCodable()
 }
-.resizable() // applied to the image returned by AsyncImage's content closure
-.frame(maxWidth: .infinity)
-.frame(height: 300)
-.clipShape {
-  RoundedRectangleCodable(cornerRadius: 12)
-}
+.frame(maxWidth: .infinity, minHeight: 300, maxHeight: 300)
+.clipShape { RoundedRectangleCodable(cornerRadius: 12) }
 ```
 
 This means we can specify any view we want for the error and placeholder states of the `AsyncImage` view:

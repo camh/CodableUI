@@ -10,6 +10,11 @@ extension ViewCodable {
 		get { wrapped.modifiers }
 		set {
 			switch self {
+			case .empty(let empty):
+				var empty = empty
+				empty.modifiers = newValue
+				self = .empty(empty)
+				
 			case .progress(let progress):
 				var progress = progress
 				progress.modifiers = newValue

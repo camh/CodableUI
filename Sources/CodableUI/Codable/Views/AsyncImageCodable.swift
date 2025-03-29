@@ -34,12 +34,14 @@ public struct AsyncImageCodable: CodableView {
 	public init(
 		url: URL? = nil,
 		scale: CGFloatCodable? = nil,
-		imageModifiers: [ViewModifierCodable]? = nil
+		imageModifier: (ImageCodable) -> ImageCodable = { $0 }
 	) {
 		self.url = url
 		self.scale = scale
-		self.resize = nil
-		self.imageModifiers = imageModifiers ?? []
+		let image = ImageCodable("")
+		let modified = imageModifier(image)
+		self.imageModifiers = modified.modifiers
+		self.resize = modified.resize
 		self.error = nil
 		self.placeholder = nil
 		self.modifiers = []
@@ -49,30 +51,20 @@ public struct AsyncImageCodable: CodableView {
 	public init(
 		url: URL? = nil,
 		scale: CGFloatCodable? = nil,
-		imageModifiers: [ViewModifierCodable]? = nil,
+		imageModifier: (ImageCodable) -> ImageCodable = { $0 },
 		@ViewCodableBuilder error: () -> ViewCodable,
 		@ViewCodableBuilder placeholder: () -> ViewCodable
 	) {
 		self.url = url
 		self.scale = scale
-		self.resize = nil
-		self.imageModifiers = imageModifiers ?? []
+		let image = ImageCodable("")
+		let modified = imageModifier(image)
+		self.imageModifiers = modified.modifiers
+		self.resize = modified.resize
 		self.error = error()
 		self.placeholder = placeholder()
 		self.modifiers = []
 		self.id = UUID()
-	}
-	
-	public func resizable(
-		capInsets: EdgeInsetsCodable? = nil,
-		resizingMode: ImageResizingModeCodable? = nil
-	) -> Self {
-		var copy = self
-		copy.resize = ImageResizeCodable(
-			capInsets: capInsets,
-			resizingMode: resizingMode
-		)
-		return copy
 	}
 }
 

@@ -8,6 +8,8 @@
 extension ViewCodable {
 	var wrapped: any CodableView {
 		switch self {
+		case .empty(let empty):
+			empty
 		case .progress(let progress):
 			progress
 		case .spacer(let spacer):

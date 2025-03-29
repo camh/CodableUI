@@ -39,4 +39,17 @@ extension ModifiableContent {
 		)
 		return addModifier(.frame(.flexible(frame)))
 	}
+	
+	public func containerRelativeFrame(
+		_ axes: AxisCodable,
+		alignment: AlignmentCodable = .center,
+		scale: CGFloatCodable? = nil
+	) -> Self {
+		let relativeFrame = ContainerRelativeFrameCodable(
+			axes,
+			alignment: alignment,
+			scale: scale
+		)
+		return addModifier(.containerRelativeFrame(relativeFrame))
+	}
 }

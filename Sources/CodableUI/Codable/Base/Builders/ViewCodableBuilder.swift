@@ -8,6 +8,16 @@
 @resultBuilder
 public struct ViewCodableBuilder {
 	
+	public static func buildBlock(_ components: ViewCodable) -> ViewCodable {
+		components
+	}
+	
+	public static func buildExpression(_ expression: ViewCodable) -> ViewCodable {
+		expression
+	}
+	
+	// MARK: - Either (if else support)
+	
 	public static func buildEither(first component: ViewCodable) -> ViewCodable {
 		component
 	}
@@ -16,13 +26,15 @@ public struct ViewCodableBuilder {
 		component
 	}
 	
-	public static func buildExpression(_ expression: ViewCodable) -> ViewCodable {
-		expression
+	// MARK: - Array (for loop support)
+	
+	public static func buildArray(_ components: [ViewCodable]) -> ViewCodable {
+		ViewCodable.vStack(
+			VStackCodable(children: { components })
+		)
 	}
 	
-	public static func buildBlock(_ components: ViewCodable) -> ViewCodable {
-		components
-	}
+	// MARK: - Block (default to VStackCodable) -
 	
 	public static func buildBlock(_ components: ViewCodable...) -> ViewCodable {
 		ViewCodable.vStack(
@@ -30,13 +42,23 @@ public struct ViewCodableBuilder {
 		)
 	}
 	
+	// MARK: - Optional (default to EmptyCodableView) -
+	
+	public static func buildOptional(_ component: ViewCodable?) -> ViewCodable {
+		component ?? .empty(EmptyViewCodable())
+	}
+	
 	// MARK: - ViewCodableProvider -
 	
-	public static func buildExpression(_ provider: any ViewCodableProvider) -> ViewCodable {
-		provider.body
+	public static func buildExpression(_ representable: any ViewCodableRepresentable) -> ViewCodable {
+		representable.body
 	}
 	
 	// MARK: - ViewCodable types -
+	
+	public static func buildExpression(_ view: EmptyViewCodable) -> ViewCodable {
+		.empty(view)
+	}
 	
 	public static func buildExpression(_ view: ProgressViewCodable) -> ViewCodable {
 		.progress(view)

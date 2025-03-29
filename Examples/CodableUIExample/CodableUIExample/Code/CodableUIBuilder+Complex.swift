@@ -19,8 +19,12 @@ extension CodableUIBuilder {
 				.font(.title2)
 			
 			AsyncImageCodable(
-				url: URL(string: "https://picsum.photos/400/600")
-			) {
+				url: URL(string: "https://picsum.photos/600/500")
+			) { image in
+				image
+					.resizable()
+					.scaledToFill()
+			} error: {
 				ImageCodable(systemName: "exclamationmark.triangle.fill")
 			} placeholder: {
 				ZStackCodable {
@@ -29,9 +33,7 @@ extension CodableUIBuilder {
 					ProgressViewCodable()
 				}
 			}
-			.resizable()
-			.frame(maxWidth: .infinity)
-			.frame(height: 300)
+			.frame(maxWidth: .infinity, minHeight: 300, maxHeight: 300)
 			.clipShape {
 				RoundedRectangleCodable(cornerRadius: 12)
 			}
@@ -81,7 +83,7 @@ extension CodableUIBuilder {
 	}
 }
 
-struct ArticleButtonCodable: ViewCodableProvider {
+struct ArticleButtonCodable: ViewCodableRepresentable {
 	
 	let title: String
 	let backgroundColor: ColorCodable

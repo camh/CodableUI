@@ -26,6 +26,7 @@ public enum ViewModifierCodable: Codable, Hashable, Sendable {
 	
 	case padding(EdgeInsetsCodable)
 	case frame(FrameCodable)
+	case containerRelativeFrame(ContainerRelativeFrameCodable)
 	case layoutPriority(DoubleCodable)
 	
 	case navigationTitle(String)

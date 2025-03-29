@@ -8,9 +8,19 @@
 @resultBuilder
 public struct ChildrenViewBuilder {
 	
+	// MARK: - Block -
+	
+	public static func buildBlock(_ children: [ViewCodable]...) -> [ViewCodable] {
+		children.flatMap { $0 }
+	}
+	
+	// MARK: - Array (for loop support)
+	
 	public static func buildArray(_ components: [[ViewCodable]]) -> [ViewCodable] {
 		components.flatMap { $0 }
 	}
+	
+	// MARK: - Basic expressions -
 	
 	public static func buildExpression(_ expression: ViewCodable) -> [ViewCodable] {
 		[expression]
@@ -20,13 +30,7 @@ public struct ChildrenViewBuilder {
 		expression
 	}
 	
-	public static func buildBlock(_ children: ViewCodable...) -> [ViewCodable] {
-		children
-	}
-	
-	public static func buildBlock(_ children: [ViewCodable]...) -> [ViewCodable] {
-		children.flatMap { $0 }
-	}
+	// MARK: - Either (if else support)
 	
 	public static func buildEither(first component: [ViewCodable]) -> [ViewCodable] {
 		component
@@ -36,13 +40,7 @@ public struct ChildrenViewBuilder {
 		component
 	}
 	
-	public static func buildEither(first component: ViewCodable) -> [ViewCodable] {
-		[component]
-	}
-	
-	public static func buildEither(second component: ViewCodable) -> [ViewCodable] {
-		[component]
-	}
+	// MARK: - Optional (if support)
 	
 	public static func buildOptional(_ component: [ViewCodable]?) -> [ViewCodable] {
 		component ?? []
@@ -50,84 +48,88 @@ public struct ChildrenViewBuilder {
 	
 	// MARK: - ViewCodableProvider -
 	
-	public static func buildExpression(_ provider: any ViewCodableProvider) -> ViewCodable {
-		provider.body
+	public static func buildExpression(_ representable: any ViewCodableRepresentable) -> [ViewCodable] {
+		[representable.body]
 	}
 	
 	// MARK: - ViewCodable types -
 	
-	public static func buildExpression(_ view: ProgressViewCodable) -> ViewCodable {
-		.progress(view)
+	public static func buildExpression(_ view: EmptyViewCodable) -> [ViewCodable] {
+		[.empty(view)]
 	}
 	
-	public static func buildExpression(_ view: SpacerCodable) -> ViewCodable {
-		.spacer(view)
+	public static func buildExpression(_ view: ProgressViewCodable) -> [ViewCodable] {
+		[.progress(view)]
 	}
 	
-	public static func buildExpression(_ view: ShapeCodable) -> ViewCodable {
-		.shape(view)
+	public static func buildExpression(_ view: SpacerCodable) -> [ViewCodable] {
+		[.spacer(view)]
 	}
 	
-	public static func buildExpression(_ view: ColorCodable) -> ViewCodable {
-		.color(view)
+	public static func buildExpression(_ view: ShapeCodable) -> [ViewCodable] {
+		[.shape(view)]
 	}
 	
-	public static func buildExpression(_ view: TextCodable) -> ViewCodable {
-		.text(view)
+	public static func buildExpression(_ view: ColorCodable) -> [ViewCodable] {
+		[.color(view)]
 	}
 	
-	public static func buildExpression(_ view: ImageCodable) -> ViewCodable {
-		.image(view)
+	public static func buildExpression(_ view: TextCodable) -> [ViewCodable] {
+		[.text(view)]
 	}
 	
-	public static func buildExpression(_ view: AsyncImageCodable) -> ViewCodable {
-		.asyncImage(view)
+	public static func buildExpression(_ view: ImageCodable) -> [ViewCodable] {
+		[.image(view)]
 	}
 	
-	public static func buildExpression(_ view: ButtonCodable) -> ViewCodable {
-		.button(view)
+	public static func buildExpression(_ view: AsyncImageCodable) -> [ViewCodable] {
+		[.asyncImage(view)]
 	}
 	
-	public static func buildExpression(_ view: HStackCodable) -> ViewCodable {
-		.hStack(view)
+	public static func buildExpression(_ view: ButtonCodable) -> [ViewCodable] {
+		[.button(view)]
 	}
 	
-	public static func buildExpression(_ view: VStackCodable) -> ViewCodable {
-		.vStack(view)
+	public static func buildExpression(_ view: HStackCodable) -> [ViewCodable] {
+		[.hStack(view)]
 	}
 	
-	public static func buildExpression(_ view: ZStackCodable) -> ViewCodable {
-		.zStack(view)
+	public static func buildExpression(_ view: VStackCodable) -> [ViewCodable] {
+		[.vStack(view)]
 	}
 	
-	public static func buildExpression(_ view: LazyVStackCodable) -> ViewCodable {
-		.lazyVStack(view)
+	public static func buildExpression(_ view: ZStackCodable) -> [ViewCodable] {
+		[.zStack(view)]
 	}
 	
-	public static func buildExpression(_ view: ScrollViewCodable) -> ViewCodable {
-		.scrollView(view)
+	public static func buildExpression(_ view: LazyVStackCodable) -> [ViewCodable] {
+		[.lazyVStack(view)]
+	}
+	
+	public static func buildExpression(_ view: ScrollViewCodable) -> [ViewCodable] {
+		[.scrollView(view)]
 	}
 	
 	// MARK: - Shapes -
 	
-	public static func buildExpression(_ shape: CircleCodable) -> ViewCodable {
-		.shape(.circle(shape))
+	public static func buildExpression(_ shape: CircleCodable) -> [ViewCodable] {
+		[.shape(.circle(shape))]
 	}
 	
-	public static func buildExpression(_ shape: RectangleCodable) -> ViewCodable {
-		.shape(.rectangle(shape))
+	public static func buildExpression(_ shape: RectangleCodable) -> [ViewCodable] {
+		[.shape(.rectangle(shape))]
 	}
 	
-	public static func buildExpression(_ shape: EllipseCodable) -> ViewCodable {
-		.shape(.ellipse(shape))
+	public static func buildExpression(_ shape: EllipseCodable) -> [ViewCodable] {
+		[.shape(.ellipse(shape))]
 	}
 	
-	public static func buildExpression(_ shape: CapsuleCodable) -> ViewCodable {
-		.shape(.capsule(shape))
+	public static func buildExpression(_ shape: CapsuleCodable) -> [ViewCodable] {
+		[.shape(.capsule(shape))]
 	}
 	
-	public static func buildExpression(_ shape: RoundedRectangleCodable) -> ViewCodable {
-		.shape(.roundedRectangle(shape))
+	public static func buildExpression(_ shape: RoundedRectangleCodable) -> [ViewCodable] {
+		[.shape(.roundedRectangle(shape))]
 	}
 	
 }

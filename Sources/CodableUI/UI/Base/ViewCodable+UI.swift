@@ -14,6 +14,9 @@ extension ViewCodable: View {
 	@ViewBuilder
 	var content: some View {
 		switch self {
+	
+		case .empty:
+			EmptyView()
 			
 		case .progress(let progress):
 			progress.body

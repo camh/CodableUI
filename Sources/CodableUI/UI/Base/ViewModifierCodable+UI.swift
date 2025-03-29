@@ -55,6 +55,11 @@ extension ViewModifierCodable: ViewModifier {
 			content.padding(insets.edgeInsets)
 		case .frame(let frame):
 			content.modifier(FrameCodableModifier(frame: frame))
+		case .containerRelativeFrame(let relativeFrame):
+			content.modifier(
+				RelativeFrameCodableModifier(relativeFrame: relativeFrame)
+			)
+			
 		case .layoutPriority(let priority):
 			content.layoutPriority(priority.rawValue)
 			

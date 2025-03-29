@@ -9,6 +9,8 @@ import Foundation
 
 public indirect enum ViewCodable: CodableView {
 	
+	case empty(EmptyViewCodable)
+	
 	case progress(ProgressViewCodable)
 	case spacer(SpacerCodable)
 
